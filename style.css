@@ -366,3 +366,105 @@ h2 {
   margin-right: 5px;
 }
 
+/* Contact Form Section */
+.contact-container {
+  background-color: white;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 1.2rem;
+  color: var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.1rem;
+  padding: 12px 15px;
+  border: 3px solid var(--border-color);
+  border-radius: 12px;
+  background-color: #fafafa;
+  outline: none;
+  transition: border-color 0.2s, background-color 0.2s;
+  box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  background-color: #fff;
+}
+
+.btn-submit {
+  font-family: 'Jua', sans-serif;
+  background-color: var(--secondary-color);
+  color: black;
+  border: var(--border-width) solid var(--border-color);
+  padding: 15px;
+  font-size: 1.3rem;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
+}
+
+.btn-submit:hover {
+  background-color: #ffb300;
+}
+
+.btn-submit:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.form-status {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 12px;
+  border: 3px solid var(--border-color);
+  font-size: 1.1rem;
+  text-align: center;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+
+.form-status.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+.form-status.error {
+  background-color: #ffebee;
+  color: #c62828;
+  border-color: #c62828;
+}
+
+.form-status.loading {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border-color: #1565c0;
+}
+
+

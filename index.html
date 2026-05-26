@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>종호의 양구관광 가이드</title>
     <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init({
+            publicKey: "8PJ61zwMH9Yb3HejA",
+          });
+       })();
+    </script>
 </head>
 
 <body>
@@ -120,6 +128,32 @@
         <h2 data-ko="🗺️ 양구 관광 지도" data-en="🗺️ Yanggu Tourist Map">🗺️ 양구 관광 지도</h2>
         <div class="map-container">
             <img src="yanggu_tour_map0405.jpg" alt="양구 관광지도">
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <h2 data-ko="✉️ 양구 여행 문의하기" data-en="✉️ Inquiry about Yanggu Trip">✉️ 양구 여행 문의하기</h2>
+        <div class="contact-container">
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <label for="from-name" data-ko="🙋‍♂️ 이름" data-en="🙋‍♂️ Name">🙋‍♂️ 이름</label>
+                    <input type="text" id="from-name" name="name" required placeholder="이름을 입력해주세요." data-ko-placeholder="이름을 입력해주세요." data-en-placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="from-email" data-ko="📧 이메일 주소" data-en="📧 Email Address">📧 이메일 주소</label>
+                    <input type="email" id="from-email" name="email" required placeholder="답변받으실 이메일을 입력해주세요." data-ko-placeholder="답변받으실 이메일을 입력해주세요." data-en-placeholder="Enter your email address">
+                </div>
+                <div class="form-group">
+                    <label for="msg-title" data-ko="📌 문의 제목" data-en="📌 Title">📌 문의 제목</label>
+                    <input type="text" id="msg-title" name="title" required placeholder="문의 제목을 입력해주세요." data-ko-placeholder="문의 제목을 입력해주세요." data-en-placeholder="Enter inquiry title">
+                </div>
+                <div class="form-group">
+                    <label for="msg-content" data-ko="💬 문의 내용" data-en="💬 Message">💬 문의 내용</label>
+                    <textarea id="msg-content" name="message" required rows="5" placeholder="문의하실 내용을 자유롭게 작성해주세요." data-ko-placeholder="문의하실 내용을 자유롭게 작성해주세요." data-en-placeholder="Write your message here..."></textarea>
+                </div>
+                <button type="submit" id="send-btn" class="btn-submit" data-ko="🚀 문의 전송하기" data-en="🚀 Send Message">🚀 문의 전송하기</button>
+            </form>
+            <div id="form-status" class="form-status" style="display: none;"></div>
         </div>
     </section>
 
