@@ -87,4 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // Educational Notice Modal handling
+    const modal = document.getElementById('notice-modal');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+
+    if (modal && modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', () => {
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        });
+    }
 });
