@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NinjaAscent - High-speed cyber climbing arcade game. Jump between walls, dodge obstacles, and climb to the top!">
+  <title>Ninja Ascent System</title>
+  
+  <!-- Premium Sci-Fi Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Futuristic Sci-Fi Grid Background -->
+  <div class="space-background"></div>
+  <div class="grid-overlay"></div>
+  <div class="ambient-glow purple"></div>
+  <div class="ambient-glow pink"></div>
+
+  <!-- Main Horizontal Layout Wrapper -->
+  <div class="main-layout-wrapper">
+    
+    <!-- Arcade Main Deck Container -->
+    <div class="arcade-deck">
+      
+      <!-- Top HUD & Command Bar -->
+      <header class="hud-header">
+        <div class="hud-left">
+          <div class="status-indicator-dot animate-pulse"></div>
+          <div class="led-score-panel">
+            <span class="label">등반 높이</span>
+            <span class="value" id="score-val">000m</span>
+          </div>
+          <div class="shield-panel" id="hud-shield-panel">
+            <span class="shield-icon">🛡️</span>
+            <span class="shield-status" id="shield-status-val">READY</span>
+          </div>
+        </div>
+        
+        <div class="hud-center">
+          <h1 class="logo-title"><span class="purple-neon">NINJA</span> <span class="pink-neon">ASCENT</span></h1>
+        </div>
+        
+        <div class="hud-right">
+          <button id="btn-start" class="btn btn-neon-pink">
+            <span class="btn-text">등반 엔진 가동</span>
+            <span class="btn-glow"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Game Viewport (Exactly 800x800px) -->
+      <main class="game-viewport">
+        
+        <!-- Canvas Renderer -->
+        <canvas id="game-canvas" width="800" height="800"></canvas>
+        
+        <!-- UI OVERLAY: Start Screen -->
+        <div id="overlay-start" class="overlay glassmorphism active">
+          <div class="overlay-content">
+            <div class="warning-icon-wrapper">
+              <span class="warning-icon">🥷</span>
+            </div>
+            <h2 class="overlay-title">네온 닌자 프로토콜 (SYSTEM ONLINE)</h2>
+            <p class="overlay-desc">
+              사이버 벽면을 질주하여 최고 높이까지 등반하세요!
+              <br><br>
+              <span class="text-highlight">조작 방법:</span> 화면을 클릭하면 반대편 벽으로 번개처럼 점프합니다.
+              점프해서 날아가는 도중에 **한 번 더 클릭**하면 반대편 벽에 닿지 않고 즉시 원래 출발했던 벽으로 돌아갑니다(회귀 점프).
+              <br><br>
+              <span class="danger-text">주의:</span> 벽면의 십자 표창, 가시 덩굴, 쥐덫, 깨진 판자 등의 네온 장애물을 회피하세요.
+            </p>
+            <div class="speed-warning">
+              <span class="alert-pulse">🛡️ 보호막 아이템:</span> 가끔 스폰되는 반짝이는 방패 아이템을 획득하면 1회 충돌을 방어해줍니다. (최대 1개 보유)
+            </div>
+            <button id="btn-start-overlay" class="btn btn-neon-cyan">
+              <span class="btn-text">네온 등반 가동</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- UI OVERLAY: Game Over & Ranking Registry -->
+        <div id="overlay-gameover" class="overlay glassmorphism">
+          <div class="overlay-content">
+            <div class="danger-header">
+              <span class="skull-icon">💥</span>
+              <h2 class="overlay-title danger-text">등반 중단 (SYSTEM COLLAPSE)</h2>
+            </div>
+            <p class="overlay-desc">
+              네온 장애물과의 격돌로 인해 추진 엔진이 파손되고 추락하였습니다.
+            </p>
+            
+            <!-- Final Score Panel -->
+            <div class="final-score-card">
+              <span class="card-label">최종 등반 높이 (MAX HEIGHT REACHED)</span>
+              <span class="card-val" id="final-score-val">0m</span>
+            </div>
+
+            <!-- Name Entry Form -->
+            <div class="record-submission">
+              <label for="player-name" class="entry-label">랭킹 보드 등록용 닌자 코드 입력</label>
+              <div class="input-group">
+                <input type="text" id="player-name" maxlength="12" placeholder="NINJA_ID..." autocomplete="off">
+                <button id="btn-submit-score" class="btn btn-neon-yellow">
+                  <span class="btn-text">기록 등록</span>
+                </button>
+              </div>
+              <p id="submission-error" class="error-msg"></p>
+            </div>
+
+            <!-- Local Leaderboard Segment (Top 20 Rankings) -->
+            <div class="leaderboard-section">
+              <h3 class="leaderboard-title">LEADERBOARD // TOP 20</h3>
+              <div class="leaderboard-table-container">
+                <table class="leaderboard-table">
+                  <thead>
+                    <tr>
+                      <th>순위</th>
+                      <th>닌자 코드</th>
+                      <th>높이</th>
+                      <th>등록일</th>
+                    </tr>
+                  </thead>
+                  <tbody id="leaderboard-body">
+                    <!-- Generated dynamically in app.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <button id="btn-restart" class="btn btn-neon-pink" style="margin-top: 15px;">
+              <span class="btn-text">엔진 재부팅</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- IN-GAME ALERT OVERLAY: Difficulty Speed Up Warning -->
+        <div id="toast-warning" class="toast-alert">
+          <span class="toast-tag">가속 경고 SPEED UP</span>
+          <span class="toast-txt">벽면 이동 및 등반 속도가 가속됩니다!</span>
+        </div>
+
+      </main>
+
+      <!-- Bottom Controls & Ad Desk -->
+      <footer class="hud-footer">
+        <div class="footer-left" style="width: 100%; display: flex; justify-content: center;">
+          <button id="btn-view-ranking" class="btn btn-glass" style="width: 280px;">
+            <span class="icon">🏆</span>
+            <span class="btn-text">랭킹보기 (1위 - 20위)</span>
+          </button>
+        </div>
+      </footer>
+
+    </div>
+
+    <!-- Right Aside Ad Panel -->
+    <aside class="ad-side-panel">
+      <a href="../index.html" class="home-btn" aria-label="Go to Main Hub">
+        <span class="home-icon">🏠</span> 메인 페이지로 돌아가기
+      </a>
+      <div class="ad-banner-container glassmorphism" aria-label="Sponsored Advertisement">
+        <script src="https://ads-partners.coupang.com/g.js"></script>
+        <script>
+          new PartnersCoupang.G({"id":992758,"template":"carousel","trackingCode":"AF6385769","width":"140","height":"680","tsource":""});
+        </script>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- LEADERBOARD DEDICATED MODAL (Accessible via bottom button) -->
+  <div id="modal-ranking" class="modal-overlay glassmorphism">
+    <div class="modal-card">
+      <header class="modal-header">
+        <h2 class="modal-title"><span class="gold-text">🏆</span> 네온 닌자 전당 (HONOR BOARD)</h2>
+        <button id="btn-close-modal" class="btn-close">&times;</button>
+      </header>
+      <div class="modal-body">
+        <div class="leaderboard-table-container modal-table">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>순위</th>
+                <th>닌자 코드</th>
+                <th>높이</th>
+                <th>등록일</th>
+              </tr>
+            </thead>
+            <tbody id="modal-leaderboard-body">
+              <!-- Generated dynamically in app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Warning Modal -->
+  <div class="fullscreen-warning-modal" id="fullscreen-warning-modal">
+    <div class="fullscreen-warning-card">
+      <div class="modal-icon-container-yellow">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+      </div>
+      <h2 class="modal-title-yellow">FULLSCREEN <span class="yellow">REQUIRED</span></h2>
+      <p class="modal-message">전체화면으로 변경해 주세요.</p>
+      <button class="modal-btn-yellow" id="close-fs-modal-btn">GO FULLSCREEN</button>
+    </div>
+  </div>
+
+  <!-- Audio Warning Initializer Modal for browsers blocking Web Audio by default -->
+  <div id="audio-warmup-toast" class="audio-toast hidden">
+    <span>🔊 신스 오디오 가동 준비 완료</span>
+  </div>
+
+  <!-- Core Script -->
+  <script src="app.js"></script>
+</body>
+</html>

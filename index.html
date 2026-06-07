@@ -260,6 +260,11 @@
       box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
     }
 
+    .card-ninja:hover {
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 25px rgba(157, 0, 255, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
     /* Game Icon Thumbnail */
     .thumbnail-container {
       width: 150px;
@@ -321,6 +326,11 @@
     .card-color:hover .thumbnail-container {
       border-color: var(--neon-cyan);
       box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+
+    .card-ninja:hover .thumbnail-container {
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
     }
 
     /* Thumbnail Images */
@@ -405,6 +415,11 @@
       text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
     }
 
+    .card-ninja:hover .game-title {
+      color: #bf55ec;
+      text-shadow: 0 0 8px rgba(157, 0, 255, 0.3);
+    }
+
     .game-desc {
       font-size: 0.9rem;
       line-height: 1.6;
@@ -468,6 +483,13 @@
       background: linear-gradient(135deg, var(--neon-cyan), #004b66);
       border-color: var(--neon-cyan);
       box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+      transform: scale(1.03);
+    }
+
+    .card-ninja:hover .launch-btn {
+      background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 15px rgba(157, 0, 255, 0.4);
       transform: scale(1.03);
     }
 
@@ -759,6 +781,23 @@
         <h2 class="game-title">DIFFERENT COLOR</h2>
         <p class="game-desc">미세하게 다른 명도를 지닌 단 하나의 격자 블록을 찾아 제한 시간 내 클릭하세요! 레벨이 상승함에 따라 극도의 감각과 명도 차이를 파악해야 하는 색각 테스트
           아케이드입니다.</p>
+        <div class="launch-btn">LAUNCH ENGINE</div>
+      </a>
+
+      <!-- Card 7: NinjaAscent -->
+      <a href="NinjaAscent/index.html" class="game-card card-ninja" id="btn-ninja-ascent">
+        <div class="thumbnail-container">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="game-img" style="color: var(--neon-purple); filter: drop-shadow(0 0 8px var(--neon-purple)); width: 55%; height: 55%;">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="rgba(157, 0, 255, 0.1)"></path>
+            <path d="M6 10h12v3H6z" fill="#000" stroke="var(--neon-purple)" stroke-width="1.5"></path>
+            <circle cx="9" cy="11.5" r="1" fill="var(--neon-cyan)"></circle>
+            <circle cx="15" cy="11.5" r="1" fill="var(--neon-cyan)"></circle>
+            <path d="M22 12c-2-1-4 .5-4 2s2 3 4 2" stroke="var(--neon-pink)"></path>
+            <path d="M21 13.5c-1.5-.5-3 .5-3 1.5s1.5 2 3 1.5" stroke="var(--neon-pink)"></path>
+          </svg>
+        </div>
+        <h2 class="game-title">NINJA ASCENT</h2>
+        <p class="game-desc">사이버 네온 벽면을 질주하여 장애물을 피하고 높이 올라가세요! 공중 회귀 점프 컨트롤과 반짝이는 방패 방어막을 이용해 최고 기록에 도전하세요.</p>
         <div class="launch-btn">LAUNCH ENGINE</div>
       </a>
 
