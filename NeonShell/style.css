@@ -94,9 +94,15 @@ body {
   gap: 30px;
   align-items: flex-start;
   z-index: 10;
-  max-width: 1100px;
+  max-width: 1300px;
   width: 100%;
   padding: 20px;
+}
+
+/* Spacer to center the main-column game screen on desktop */
+.left-spacer {
+  width: 140px;
+  flex-shrink: 0;
 }
 
 .main-column {
@@ -515,26 +521,25 @@ body {
   box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
 }
 
-/* Side Leaderboard Panel (Right Side) */
-.side-leaderboard {
-  width: 250px;
+/* Bottom Leaderboard Panel */
+.bottom-leaderboard {
+  width: 100%;
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
   border-radius: 24px;
-  padding: 25px 20px;
+  padding: 25px 30px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
-  max-height: 800px;
-  overflow: hidden;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
 }
 
-.side-title {
+.bottom-leaderboard-title {
   font-family: 'Orbitron', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   letter-spacing: 2px;
   color: var(--neon-gold);
   text-shadow: 0 0 8px rgba(255, 184, 0, 0.3);
@@ -591,6 +596,84 @@ body {
 
 .highlighted {
   background: rgba(0, 240, 255, 0.05);
+}
+
+/* Right Aside Ad Layout */
+.ad-side-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 800px; /* Aligned to game frame height */
+  margin-top: 80px; /* Aligns top edge */
+}
+
+/* Go to Hub Navigation Button */
+.home-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 140px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.home-btn:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.35);
+  transform: translateY(-3px);
+  color: var(--neon-cyan);
+}
+
+.home-btn:active {
+  transform: translateY(1px);
+}
+
+.home-icon {
+  font-size: 1.05rem;
+}
+
+/* Coupang Partners Ad Banner (140x680 Vertical) */
+.ad-banner-container {
+  width: 140px;
+  height: 680px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.05), 0 8px 30px rgba(0, 0, 0, 0.7);
+  background: rgba(8, 4, 18, 0.6);
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ad-banner-container:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.15), 0 8px 30px rgba(0, 0, 0, 0.8);
+}
+
+.ad-banner-container iframe {
+  display: block;
+  border: none !important;
+  border-radius: 12px;
+  max-height: 100%;
 }
 
 /* Fullscreen Backdrop Modal */
@@ -857,7 +940,11 @@ body {
 /* ==========================================================================
    Responsive adjustments
    ========================================================================== */
-@media (max-width: 1100px) {
+@media (max-width: 1300px) {
+  .left-spacer {
+    display: none;
+  }
+
   .game-wrapper {
     flex-direction: column;
     align-items: center;
@@ -880,10 +967,19 @@ body {
     margin-top: 0;
   }
 
-  .side-leaderboard {
+  .bottom-leaderboard {
     width: 100%;
     max-width: 800px;
-    margin-top: 0;
+    margin-top: 20px;
+  }
+
+  .ad-side-panel {
+    margin-top: 20px;
+    height: auto;
+  }
+
+  .ad-banner-container {
+    height: 300px;
   }
 }
 

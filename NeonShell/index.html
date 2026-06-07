@@ -24,6 +24,9 @@
   </div>
 
   <div class="game-wrapper">
+    <!-- Left Spacer to center the game screen -->
+    <div class="left-spacer"></div>
+
     <!-- Main Column to vertically align HUD and Viewport -->
     <div class="main-column">
       <!-- Header HUD Panel -->
@@ -109,24 +112,38 @@
         </div>
       </div>
     </div>
+
+      <!-- Bottom HUD Panel (Mini leaderboard) -->
+      <div class="bottom-leaderboard">
+        <h3 class="bottom-leaderboard-title">TOP RECORD</h3>
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>RANK</th>
+              <th>AGENT</th>
+              <th>STAGE CLEARED</th>
+              <th>DATE TIME</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
     </div> <!-- End of main-column -->
 
-    <!-- Right Side HUD Panel (Mini leaderboard) -->
-    <div class="side-leaderboard">
-      <h3 class="side-title">TOP RECORD</h3>
-      <table class="leaderboard-table">
-        <thead>
-          <tr>
-            <th>RANK</th>
-            <th>AGENT</th>
-            <th>STAGE</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-          <!-- Populated by JS -->
-        </tbody>
-      </table>
-    </div>
+    <!-- Right Aside Ad Panel -->
+    <aside class="ad-side-panel">
+      <a href="../index.html" class="home-btn" aria-label="Go to Main Hub">
+        <span class="home-icon">🏠</span> 메인 페이지로 돌아가기
+      </a>
+      <div class="ad-banner-container glassmorphism" aria-label="Sponsored Advertisement">
+        <script src="https://ads-partners.coupang.com/g.js"></script>
+        <script>
+          new PartnersCoupang.G({"id":992758,"template":"carousel","trackingCode":"AF6385769","width":"140","height":"680","tsource":""});
+        </script>
+      </div>
+    </aside>
   </div>
 
   <!-- Fullscreen Leaderboard Modal -->
