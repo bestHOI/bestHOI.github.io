@@ -1,0 +1,848 @@
+/* ==========================================================================
+   RunningMouse - Cyber Synthwave Style Sheet
+   ========================================================================== */
+
+/* Design Tokens & Theme Variables */
+:root {
+  --bg-dark: #080612;
+  --bg-darker: #040309;
+  
+  /* Cyber Synthwave Palette */
+  --neon-pink: #ff007f;
+  --neon-cyan: #00f0ff;
+  --neon-purple: #9400d3;
+  --neon-green: #39ff14;
+  --neon-yellow: #ffff00;
+  
+  /* Text and Accents */
+  --text-main: #f0f0fa;
+  --text-muted: #8c88a5;
+  --accent-pink: rgba(255, 0, 127, 0.2);
+  --accent-cyan: rgba(0, 240, 255, 0.2);
+  --accent-purple: rgba(148, 0, 211, 0.2);
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(15, 11, 28, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(0, 240, 255, 0.3);
+  
+  /* Layout */
+  --viewport-size: 800px;
+}
+
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none; /* Prevent accidental text highlights during fast clicks */
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Retro Futuristic Grid & Glow Orbs */
+.grid-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 0, 127, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 127, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.grid-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 20%, var(--bg-dark) 80%);
+  pointer-events: none;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  z-index: 1;
+  pointer-events: none;
+  animation: float-orbs 20s infinite alternate ease-in-out;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background-color: var(--neon-purple);
+  top: 10%;
+  left: 5%;
+}
+
+.orb-2 {
+  width: 600px;
+  height: 600px;
+  background-color: var(--neon-cyan);
+  bottom: 10%;
+  right: 5%;
+  animation-delay: -5s;
+}
+
+/* Animations */
+@keyframes float-orbs {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(80px, 50px) scale(1.2); }
+}
+
+@keyframes pulse-neon {
+  0% { box-shadow: 0 0 15px rgba(0, 240, 255, 0.25); }
+  100% { box-shadow: 0 0 35px rgba(0, 240, 255, 0.45); }
+}
+
+@keyframes grid-scroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 40px; }
+}
+
+@keyframes hit-flash-effect {
+  0% { filter: brightness(3) drop-shadow(0 0 25px var(--neon-pink)); }
+  50% { filter: brightness(1.5) drop-shadow(0 0 15px var(--neon-cyan)); }
+  100% { filter: brightness(1) drop-shadow(0 0 8px var(--neon-cyan)); }
+}
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 4px var(--neon-pink), 0 0 12px var(--neon-pink);
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-zoom-in {
+  animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.9) translate(-50%, -40%); }
+  to { opacity: 1; transform: scale(1) translate(-50%, -50%); }
+}
+
+/* Glassmorphism Styles */
+.glassmorphism {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(4, 2, 10, 0.6);
+}
+
+/* Main Container Layout */
+.app-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  padding: 20px;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 2.8rem;
+  letter-spacing: 4px;
+  color: var(--text-main);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  margin-bottom: 5px;
+}
+
+.logo span.neon-purple {
+  color: #c44dff;
+  text-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple);
+}
+
+.tagline {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+}
+
+/* Game Wrapper */
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Top Control Panel */
+.control-panel {
+  width: var(--viewport-size);
+  padding: 15px 30px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.control-panel::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+}
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.stat-value {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+
+/* Neon Text Colors */
+.neon-pink {
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+}
+
+.neon-cyan {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+/* Buttons Styling */
+.btn {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  outline: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  color: var(--bg-darker);
+  font-weight: 900;
+  font-size: 1.05rem;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.6), 0 0 10px rgba(148, 0, 211, 0.4);
+  color: #fff;
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.05);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--neon-green), #00b300);
+  color: var(--bg-darker);
+  font-weight: 900;
+}
+
+.btn-accent:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.6);
+}
+
+/* 800x800 Game Viewport */
+.viewport-boundary {
+  width: var(--viewport-size);
+  height: var(--viewport-size);
+  background: #06040d;
+  border: 2px solid rgba(0, 240, 255, 0.2);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.15), inset 0 0 40px rgba(0, 0, 0, 0.9);
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.viewport-boundary.active {
+  border-color: var(--neon-pink);
+  animation: pulse-neon 2s infinite alternate ease-in-out;
+}
+
+/* Sub-grid system inside viewport */
+.viewport-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+/* Game Instruction Overlay */
+.viewport-overlay-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  background: rgba(4, 3, 9, 0.85);
+  transition: opacity 0.4s ease;
+}
+
+.instructions-card {
+  max-width: 500px;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.instructions-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 2px;
+  color: var(--neon-cyan);
+  font-size: 1.5rem;
+}
+
+.instructions-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.blink-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--neon-pink);
+  animation: blink 1.5s infinite;
+  font-size: 0.9rem;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+/* Running Mouse Game Element */
+.mouse-element {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 15;
+  mix-blend-mode: screen; /* Effectively keys out the black background of the icon */
+  filter: invert(1) drop-shadow(0 0 10px var(--neon-pink));
+  transform-origin: center center;
+  transition: transform 0.08s linear; /* Responsive rotation/scaling */
+  border-radius: 50%;
+}
+
+.mouse-element.hit-flash {
+  animation: hit-flash-effect 0.2s ease-out forwards;
+}
+
+.mouse-element.hidden {
+  display: none !important;
+}
+
+/* Bottom Footer Panel */
+.footer-panel {
+  width: var(--viewport-size);
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.footer-panel button {
+  width: 260px;
+}
+
+/* ==========================================================================
+   Modals & Glassmorphic Popups
+   ========================================================================== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  display: none; /* Toggled via JS */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(4, 3, 9, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 480px;
+  padding: 40px;
+  border-radius: 24px;
+  z-index: 110;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+
+.modal-glow {
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.modal-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 2.2rem;
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.neon-green-text {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+}
+
+.neon-purple-text {
+  color: #c44dff;
+  text-shadow: 0 0 10px rgba(148, 0, 211, 0.4);
+}
+
+.clear-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.clear-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.clear-time {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 2.5rem;
+}
+
+.neon-cyan-text {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+/* Name submission form */
+.input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.input-row input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  padding: 12px 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-row input:focus {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+}
+
+.input-row button {
+  white-space: nowrap;
+}
+
+.status-message {
+  font-size: 0.8rem;
+  text-align: center;
+  height: 20px;
+}
+
+.status-message.success {
+  color: var(--neon-green);
+}
+
+.status-message.error {
+  color: var(--neon-pink);
+}
+
+/* Rankings Content Override */
+.rankings-content {
+  max-width: 600px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header .modal-title {
+  margin-bottom: 0;
+  font-size: 1.8rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 2.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: var(--neon-pink);
+  text-shadow: 0 0 8px var(--neon-pink);
+}
+
+/* Leaderboard Table styling */
+.leaderboard-wrapper {
+  max-height: 450px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Scrollbar for rankings */
+.leaderboard-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.leaderboard-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.leaderboard-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
+
+.leaderboard-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.3);
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.leaderboard-table th {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  background: #110e1f;
+  z-index: 10;
+}
+
+.leaderboard-table td {
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.leaderboard-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Special highlight for top 3 ranks */
+.leaderboard-table tbody tr:nth-child(1) td:nth-child(1) {
+  color: var(--neon-yellow);
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(255, 255, 0, 0.5);
+}
+
+.leaderboard-table tbody tr:nth-child(2) td:nth-child(1) {
+  color: #d1d1e0;
+  font-weight: 700;
+}
+
+.leaderboard-table tbody tr:nth-child(3) td:nth-child(1) {
+  color: #cd7f32;
+  font-weight: 700;
+}
+
+.leaderboard-table tbody tr:nth-child(1) {
+  background-color: rgba(255, 255, 0, 0.02);
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  text-align: center;
+  gap: 15px;
+}
+
+.no-data.hidden {
+  display: none !important;
+}
+
+.cyber-icon {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px var(--neon-pink);
+  border: 2px solid var(--neon-pink);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+}
+
+.no-data p {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+}
+
+/* Main Horizontal Layout Wrapper */
+.main-layout-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Right Side Ad Panel Alignment */
+.ad-side-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 800px; /* Perfectly aligned to the 800px viewport height */
+}
+
+/* Go to Hub Navigation Button */
+.home-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 140px;
+  padding: 12px 16px;
+  margin-bottom: 20px; /* Elegant gap above dynamic ad container */
+  border-radius: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.home-btn:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.35);
+  transform: translateY(-3px);
+  color: var(--neon-cyan);
+}
+
+.home-btn:active {
+  transform: translateY(1px);
+}
+
+.home-icon {
+  font-size: 1.05rem;
+}
+
+/* Coupang Partners Ad Banner Container (140x680 Vertical) */
+.ad-banner-container {
+  width: 140px;
+  height: 680px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(255, 0, 127, 0.1);
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.05), 0 8px 30px rgba(0, 0, 0, 0.7);
+  background: rgba(8, 5, 15, 0.6);
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ad-banner-container:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.15), 0 8px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* Ensure dynamic iframe sits cleanly inside */
+.ad-banner-container iframe {
+  display: block;
+  border: none !important;
+  border-radius: 12px;
+  max-height: 100%;
+}

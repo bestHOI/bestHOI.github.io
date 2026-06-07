@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="HoverEscape - A premium neon-glow procedural cave glider game. Pilot your futuristic fighter to dodge organic caverns!">
+  <title>HoverEscape - Neon Cave Glider</title>
+
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;800&family=Rajdhani:wght@500;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Synthwave Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Physics & Rendering Engine -->
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Tech Matrix Grid Background -->
+  <div class="grid-background"></div>
+  <div class="glow-orb orb-pink"></div>
+  <div class="glow-orb orb-cyan"></div>
+
+  <div class="app-container animate-fade-in">
+    <!-- Header Logo -->
+    <header class="app-header">
+      <h1 class="logo">HOVER<span class="neon-pink">ESCAPE</span></h1>
+      <p class="tagline">클릭하여 비행 방향을 전환하고, 무작위로 다가오는 네온 동굴 벽을 피하세요.</p>
+    </header>
+
+    <!-- Main Horizontal Layout Wrapper -->
+    <div class="main-layout-wrapper">
+
+      <!-- Left Gameplay Column -->
+      <main class="game-wrapper">
+
+        <!-- Top Stats Dashboard -->
+        <div class="control-panel glassmorphism" id="top-panel">
+          <div class="stat-box distance-box" id="distance-display">
+            <span class="stat-label">비행 거리</span>
+            <span id="distance-count" class="stat-value neon-cyan">0.000m</span>
+          </div>
+
+          <button id="start-btn" class="btn btn-primary glow-btn" aria-label="Start Game">게임 시작</button>
+        </div>
+
+        <!-- 800x800 Interactive Viewport -->
+        <div id="game-viewport" class="viewport-boundary">
+          <!-- Procedural Neon Cave Canvas -->
+          <canvas id="game-canvas" width="800" height="800"></canvas>
+
+          <!-- Absolute Positioned Jet Fighter -->
+          <img id="airplane" src="airplane.png" alt="Neon Jet Fighter" class="airplane-element"
+            style="transform: translate3d(50px, 375px, 0) rotate(0deg);">
+
+          <!-- Welcome Instruction Overlay -->
+          <div id="viewport-overlay" class="viewport-overlay-content">
+            <div class="instructions-card glassmorphism">
+              <h3>기체 동조 완료 (SYSTEM GLIDER ONLINE)</h3>
+              <p>게임 시작 버튼을 누르면 엔진 추진력이 활성화됩니다. 전투기는 왼쪽에 고정된 상태로 앞으로 나아갑니다. 화면을 클릭할 때마다 상승/하강 방향을 전환할 수 있습니다. 위아래 네온 동굴
+                벽에 충돌하지 않도록 집중하세요!</p>
+              <span class="blink-text">게임 시작 버튼을 누르면 주 엔진이 가동됩니다</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Footer Controls -->
+        <footer class="footer-panel" id="bottom-panel">
+          <button id="rankings-btn" class="btn btn-secondary glass-btn" aria-label="Open Leaderboard">랭킹보기</button>
+        </footer>
+
+      </main>
+
+      <!-- Right Aside Ad Panel -->
+      <aside class="ad-side-panel">
+        <a href="../index.html" class="home-btn" aria-label="Go to Main Hub">
+          <span class="home-icon">🏠</span> 메인 페이지로 돌아가기
+        </a>
+        <div class="ad-banner-container glassmorphism" aria-label="Sponsored Advertisement">
+          <script src="https://ads-partners.coupang.com/g.js"></script>
+          <script>
+            new PartnersCoupang.G({ "id": 992758, "template": "carousel", "trackingCode": "AF6385769", "width": "140", "height": "680", "tsource": "" });
+          </script>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- Modal 1: Game Over / Score Registry -->
+  <div id="game-over-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-over-title">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content glassmorphism animate-zoom-in">
+      <div class="modal-glow glow-pink"></div>
+      <h2 id="modal-over-title" class="modal-title neon-pink-text">임무 실패 (SYSTEM OVER)</h2>
+
+      <p class="congrats-tag">전투기가 파괴되었습니다. 동굴 외벽과의 격렬한 충돌이 감지되었습니다.</p>
+
+      <div class="clear-stats">
+        <span class="clear-label">글라이더 비행 거리</span>
+        <span id="final-distance" class="clear-value neon-cyan-text">0.000m</span>
+      </div>
+
+      <div class="input-form">
+        <label for="player-name" class="input-label">기록 등록을 위한 플레이어명 입력</label>
+        <div class="input-row">
+          <input type="text" id="player-name" placeholder="이름을 입력하세요" maxlength="12" autocomplete="off">
+          <button id="save-record-btn" class="btn btn-accent glow-btn-pink">기록 등록</button>
+        </div>
+        <p id="save-status" class="status-message"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Hall of Fame Rankings -->
+  <div id="rankings-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-rank-title">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content glassmorphism rankings-content animate-zoom-in">
+      <div class="modal-header">
+        <h2 id="modal-rank-title" class="modal-title neon-pink-text">명예의 전당 (HALL OF FAME)</h2>
+        <button class="close-btn" id="close-rankings-btn" aria-label="Close Modal">&times;</button>
+      </div>
+
+      <div class="leaderboard-wrapper">
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th scope="col">순위</th>
+              <th scope="col">파일럿</th>
+              <th scope="col">비행 거리</th>
+              <th scope="col">등록일</th>
+            </tr>
+          </thead>
+          <tbody id="rankings-list">
+            <!-- Dynamic Injections from LocalStorage -->
+          </tbody>
+        </table>
+        <div id="no-rankings" class="no-data hidden">
+          <span class="cyber-icon">!</span>
+          <p>등록된 비행 기록이 없습니다. 지금 출격하여 첫 번째 비행 로그를 남겨 보세요!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Warning Modal -->
+  <div class="fullscreen-warning-modal" id="fullscreen-warning-modal">
+    <div class="fullscreen-warning-card">
+      <div class="modal-icon-container-yellow">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+      </div>
+      <h2 class="modal-title-yellow">FULLSCREEN <span class="yellow">REQUIRED</span></h2>
+      <p class="modal-message">전체화면으로 변경해 주세요.</p>
+      <button class="modal-btn-yellow" id="close-fs-modal-btn">GO FULLSCREEN</button>
+    </div>
+  </div>
+
+  <style>
+    /* ==========================================================================
+       Fullscreen warning modal (Self-contained defaults)
+       ========================================================================== */
+    .fullscreen-warning-modal {
+      --modal-glass-bg: rgba(12, 8, 22, 0.9);
+      --modal-neon-yellow: #ffff00;
+      --modal-text-main: #f5f0fa;
+      --modal-text-muted: #827e99;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(3, 2, 6, 0.9);
+      backdrop-filter: blur(15px) saturate(180%);
+      -webkit-backdrop-filter: blur(15px) saturate(180%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fullscreen-warning-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .fullscreen-warning-card {
+      background: var(--modal-glass-bg);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      border: 2px solid var(--modal-neon-yellow);
+      border-radius: 28px;
+      padding: 45px 35px;
+      width: 90%;
+      max-width: 460px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(255, 234, 0, 0.25), inset 0 0 20px rgba(255, 234, 0, 0.1);
+      transform: translateY(30px) scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+      position: relative;
+    }
+
+    .fullscreen-warning-modal.active .fullscreen-warning-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-icon-container-yellow {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 25px auto;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--modal-neon-yellow);
+      box-shadow: 0 0 20px rgba(255, 234, 0, 0.3), inset 0 0 10px rgba(255, 234, 0, 0.1);
+      color: var(--modal-neon-yellow);
+      background: rgba(255, 234, 0, 0.03);
+      animation: pulse-glow-yellow-game 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-glow-yellow-game {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 234, 0, 0.2), inset 0 0 5px rgba(255, 234, 0, 0.05);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(255, 234, 0, 0.5), inset 0 0 15px rgba(255, 234, 0, 0.2);
+        transform: scale(1.05);
+      }
+    }
+
+    .modal-title-yellow {
+      font-family: 'Orbitron', 'Poppins', sans-serif;
+      font-weight: 900;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--modal-text-main);
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+    }
+
+    .modal-title-yellow span.yellow {
+      color: var(--modal-neon-yellow);
+      text-shadow: 0 0 12px var(--modal-neon-yellow), 0 0 24px rgba(255, 234, 0, 0.3);
+    }
+
+    .modal-message {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--modal-text-muted);
+      margin-bottom: 30px;
+      word-break: keep-all;
+    }
+
+    .modal-btn-yellow {
+      font-family: 'Rajdhani', 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      padding: 13px 35px;
+      border-radius: 12px;
+      border: 1px solid var(--modal-neon-yellow);
+      background: linear-gradient(135deg, var(--modal-neon-yellow), #ff9000);
+      color: #030206;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 0 15px rgba(255, 234, 0, 0.3);
+      outline: none;
+    }
+
+    .modal-btn-yellow:hover {
+      box-shadow: 0 0 25px rgba(255, 234, 0, 0.6);
+      transform: scale(1.02);
+      border-color: #ffff33;
+    }
+
+    .modal-btn-yellow:active {
+      transform: scale(0.98);
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if browser is NOT PC
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isMobile = /android|avantgo|blackberry|iemobile|ipad|iphone|ipod|j2me|midp|mmp|mobile|o2|opera mini|palm|plucker|pocket|psp|smartphone|symbian|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino/i.test(userAgent) ||
+                      (/Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1) || // iPad Pro, etc.
+                      (window.innerWidth <= 1024 && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
+
+      if (!isMobile) {
+        // Desktop/PC browser: check for fullscreen
+        const fsModal = document.getElementById('fullscreen-warning-modal');
+        const fsBtn = document.getElementById('close-fs-modal-btn');
+
+        function checkIsFullscreen() {
+          const apiFullscreen = !!(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+          );
+          if (apiFullscreen) return true;
+
+          const widthDiff = Math.abs(window.innerWidth - window.screen.width);
+          const heightDiff = Math.abs(window.innerHeight - window.screen.height);
+          const outerWidthDiff = Math.abs(window.outerWidth - window.screen.width);
+          const outerHeightDiff = Math.abs(window.outerHeight - window.screen.height);
+
+          return (widthDiff <= 8 && heightDiff <= 8) || (outerWidthDiff <= 8 && outerHeightDiff <= 8);
+        }
+
+        function updateFullscreenModal() {
+          if (checkIsFullscreen()) {
+            fsModal.classList.remove('active');
+          } else {
+            fsModal.classList.add('active');
+          }
+        }
+
+        // Delay initial check slightly for smooth loading and user orientation
+        setTimeout(updateFullscreenModal, 800);
+
+        // Listen to resizing and fullscreen state changes
+        window.addEventListener('resize', updateFullscreenModal);
+        document.addEventListener('fullscreenchange', updateFullscreenModal);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenModal);
+        document.addEventListener('mozfullscreenchange', updateFullscreenModal);
+        document.addEventListener('MSFullscreenChange', updateFullscreenModal);
+
+        // Request fullscreen on button click
+        fsBtn.addEventListener('click', () => {
+          const elem = document.documentElement;
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+          } else {
+            fsModal.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

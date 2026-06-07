@@ -2,182 +2,1008 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="naver-site-verification" content="bef583208edcf291aef4d490890d842805c1a124" />
-    <meta name="google-site-verification" content="pRJ2mRgtrQDX9_4NVIV04IyZRRBeaEsXrURfYqSvIgA" />
-    <title>종호의 양구관광 가이드</title>
-    <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function () {
-            emailjs.init({
-                publicKey: "8PJ61zwMH9Yb3HejA",
-            });
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Cyber Neon Arcade Hub - Launch and pilot futuristic web mini-games! Play RunningMouse, NumberPuzzle, and HoverEscape.">
+  <title>Cyber Neon Arcade Portal</title>
+
+  <!-- Premium Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;800&family=Rajdhani:wght@500;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       Cyber Neon Arcade Portal - Stylesheet
+       ========================================================================== */
+
+    :root {
+      --bg-dark: #07050f;
+      --bg-darker: #030206;
+      --neon-pink: #ff007f;
+      --neon-cyan: #00f0ff;
+      --neon-purple: #9400d3;
+      --neon-yellow: #ffff00;
+
+      --text-main: #f5f0fa;
+      --text-muted: #827e99;
+
+      --glass-bg: rgba(12, 8, 22, 0.7);
+      --glass-border: rgba(255, 0, 127, 0.08);
+      --glass-border-hover: rgba(0, 240, 255, 0.35);
+    }
+
+    /* Reset & Core Body */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Tech Matrix Grid Background */
+    .grid-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(255, 0, 127, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 127, 0.02) 1px, transparent 1px);
+      background-size: 45px 45px;
+      background-position: center center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .grid-background::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, transparent 20%, var(--bg-dark) 85%);
+      pointer-events: none;
+    }
+
+    /* Neon Glow Orbs */
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.12;
+      z-index: 1;
+      pointer-events: none;
+      animation: float-orbs 25s infinite alternate ease-in-out;
+    }
+
+    .orb-pink {
+      width: 500px;
+      height: 500px;
+      background-color: var(--neon-pink);
+      top: 10%;
+      left: 5%;
+    }
+
+    .orb-cyan {
+      width: 600px;
+      height: 600px;
+      background-color: var(--neon-cyan);
+      bottom: 10%;
+      right: 5%;
+      animation-delay: -6s;
+    }
+
+    @keyframes float-orbs {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        transform: translate(60px, -30px) scale(1.1);
+      }
+    }
+
+    /* Outer Container */
+    .portal-container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      padding: 40px 20px;
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Header Area */
+    .portal-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .logo-glow {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 3.5rem;
+      letter-spacing: 6px;
+      color: var(--text-main);
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+      margin-bottom: 8px;
+    }
+
+    .logo-glow span.neon-pink {
+      color: var(--neon-pink);
+      text-shadow: 0 0 12px var(--neon-pink), 0 0 24px rgba(255, 0, 127, 0.4);
+    }
+
+    .logo-glow span.neon-cyan {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 12px var(--neon-cyan), 0 0 24px rgba(0, 240, 255, 0.4);
+    }
+
+    .tagline {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--text-muted);
+    }
+
+    /* Grid Card Layout */
+    .arcade-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 1200px;
+      margin-bottom: 40px;
+    }
+
+    /* Glassmorphism Cards */
+    .game-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(4, 2, 8, 0.7);
+      text-decoration: none;
+      color: var(--text-main);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Inner Card Accents */
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.03), transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Hover Effects */
+    .game-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Unique hover states for cards */
+    .card-mouse:hover {
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 25px rgba(255, 0, 127, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
+    .card-puzzle:hover {
+      border-color: #9400d3;
+      box-shadow: 0 0 25px rgba(148, 0, 211, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
+    .card-escape:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
+    .card-meteor:hover {
+      border-color: var(--neon-yellow);
+      box-shadow: 0 0 25px rgba(255, 234, 0, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
+    .card-slide:hover {
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 25px rgba(255, 0, 127, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
+    .card-color:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Game Icon Thumbnail */
+    .thumbnail-container {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 25px;
+      position: relative;
+      background: rgba(4, 2, 10, 0.6);
+      border: 2px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s ease;
+      overflow: hidden;
+    }
+
+    .card-mouse .thumbnail-container {
+      box-shadow: 0 0 15px rgba(255, 0, 127, 0.1);
+    }
+
+    .card-puzzle .thumbnail-container {
+      box-shadow: 0 0 15px rgba(148, 0, 211, 0.1);
+    }
+
+    .card-escape .thumbnail-container {
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+    }
+
+    /* Thumbnail Hover States */
+    .game-card:hover .thumbnail-container {
+      transform: scale(1.1);
+    }
+
+    .card-mouse:hover .thumbnail-container {
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+    }
+
+    .card-puzzle:hover .thumbnail-container {
+      border-color: #9400d3;
+      box-shadow: 0 0 20px rgba(148, 0, 211, 0.4);
+    }
+
+    .card-escape:hover .thumbnail-container {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+
+    .card-meteor:hover .thumbnail-container {
+      border-color: var(--neon-yellow);
+      box-shadow: 0 0 20px rgba(255, 234, 0, 0.4);
+    }
+
+    .card-slide:hover .thumbnail-container {
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+    }
+
+    .card-color:hover .thumbnail-container {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+
+    /* Thumbnail Images */
+    .game-img {
+      width: 65%;
+      height: 65%;
+      object-fit: contain;
+      pointer-events: none;
+      transition: transform 0.4s ease;
+    }
+
+    .card-mouse .game-img {
+      transform: rotate(90deg);
+      /* Align mouse upwards */
+    }
+
+    .game-card:hover .game-img {
+      transform: scale(1.05);
+    }
+
+    .card-mouse:hover .game-img {
+      transform: rotate(90deg) scale(1.1);
+    }
+
+    /* Game Info text */
+    .game-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      transition: color 0.3s ease;
+    }
+
+    .card-mouse .game-title {
+      color: var(--text-main);
+    }
+
+    .card-mouse:hover .game-title {
+      color: var(--neon-pink);
+      text-shadow: 0 0 8px rgba(255, 0, 127, 0.3);
+    }
+
+    .card-puzzle .game-title {
+      color: var(--text-main);
+    }
+
+    .card-puzzle:hover .game-title {
+      color: #bf55ec;
+      text-shadow: 0 0 8px rgba(148, 0, 211, 0.3);
+    }
+
+    .card-escape .game-title {
+      color: var(--text-main);
+    }
+
+    .card-escape:hover .game-title {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+    }
+
+    .card-meteor .game-title {
+      color: var(--text-main);
+    }
+
+    .card-meteor:hover .game-title {
+      color: #ffcc00;
+      text-shadow: 0 0 8px rgba(255, 240, 0, 0.3);
+    }
+
+    .card-slide .game-title {
+      color: var(--text-main);
+    }
+
+    .card-slide:hover .game-title {
+      color: var(--neon-pink);
+      text-shadow: 0 0 8px rgba(255, 0, 127, 0.3);
+    }
+
+    .card-color:hover .game-title {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+    }
+
+    .game-desc {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 25px;
+      flex-grow: 1;
+    }
+
+    /* Launch Button style */
+    .launch-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      padding: 12px 28px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-main);
+      width: 100%;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .card-mouse:hover .launch-btn {
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+      transform: scale(1.03);
+    }
+
+    .card-puzzle:hover .launch-btn {
+      background: linear-gradient(135deg, #9400d3, #4b0082);
+      border-color: #9400d3;
+      box-shadow: 0 0 15px rgba(148, 0, 211, 0.4);
+      transform: scale(1.03);
+    }
+
+    .card-escape:hover .launch-btn {
+      background: linear-gradient(135deg, var(--neon-cyan), #004b66);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+      transform: scale(1.03);
+    }
+
+    .card-meteor:hover .launch-btn {
+      background: linear-gradient(135deg, var(--neon-yellow), #ff9000);
+      border-color: var(--neon-yellow);
+      box-shadow: 0 0 15px rgba(255, 240, 0, 0.4);
+      transform: scale(1.03);
+    }
+
+    .card-slide:hover .launch-btn {
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+      transform: scale(1.03);
+    }
+
+    .card-color:hover .launch-btn {
+      background: linear-gradient(135deg, var(--neon-cyan), #004b66);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+      transform: scale(1.03);
+    }
+
+    /* Responsive Adaptations */
+    @media (max-width: 1100px) {
+      .arcade-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 700px;
+        gap: 25px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .arcade-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        max-width: 450px;
+      }
+
+      .logo-glow {
+        font-size: 2.8rem;
+      }
+    }
+
+    /* Footer Credit */
+    .portal-footer {
+      text-align: center;
+      margin-top: 30px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+    }
+
+    /* Bottom Horizontal Ad Banner Layout */
+    .bottom-ad-section {
+      width: 100%;
+      max-width: 680px;
+      margin: 40px auto 20px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .ad-banner-horizontal {
+      width: 680px;
+      height: 140px;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid rgba(255, 0, 127, 0.1);
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.05), 0 8px 30px rgba(0, 0, 0, 0.7);
+      background: rgba(8, 4, 18, 0.6);
+      position: relative;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .ad-banner-horizontal:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.15), 0 8px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .ad-banner-horizontal iframe {
+      display: block;
+      border: none !important;
+      border-radius: 12px;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .partners-disclosure {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      letter-spacing: 0.5px;
+      opacity: 0.8;
+      max-width: 600px;
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       PC optimized warning modal
+       ========================================================================== */
+    .pc-warning-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(3, 2, 6, 0.85);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pc-warning-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .pc-warning-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      border: 2px solid var(--neon-pink);
+      border-radius: 28px;
+      padding: 45px 35px;
+      width: 90%;
+      max-width: 460px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(255, 0, 127, 0.25), inset 0 0 20px rgba(255, 0, 127, 0.1);
+      transform: translateY(30px) scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+      position: relative;
+    }
+
+    .pc-warning-modal.active .pc-warning-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-icon-container {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 25px auto;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3), inset 0 0 10px rgba(0, 240, 255, 0.1);
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.03);
+      animation: pulse-glow 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 5px rgba(0, 240, 255, 0.05);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.5), inset 0 0 15px rgba(0, 240, 255, 0.2);
+        transform: scale(1.05);
+      }
+    }
+
+    .modal-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--text-main);
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+    }
+
+    .modal-title span.cyan {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 12px var(--neon-cyan), 0 0 24px rgba(0, 240, 255, 0.3);
+    }
+
+    .modal-message {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      word-break: keep-all;
+    }
+
+    .modal-message strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .modal-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      padding: 13px 35px;
+      border-radius: 12px;
+      border: 1px solid var(--neon-pink);
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+      color: var(--text-main);
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+      outline: none;
+    }
+
+    .modal-btn:hover {
+      box-shadow: 0 0 25px rgba(255, 0, 127, 0.6);
+      transform: scale(1.02);
+      border-color: #ff3399;
+    }
+
+    .modal-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* ==========================================================================
+       Fullscreen optimized warning modal
+       ========================================================================== */
+    .fullscreen-warning-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(3, 2, 6, 0.9);
+      backdrop-filter: blur(15px) saturate(180%);
+      -webkit-backdrop-filter: blur(15px) saturate(180%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fullscreen-warning-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .fullscreen-warning-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      border: 2px solid var(--neon-yellow);
+      border-radius: 28px;
+      padding: 45px 35px;
+      width: 90%;
+      max-width: 460px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(255, 234, 0, 0.25), inset 0 0 20px rgba(255, 234, 0, 0.1);
+      transform: translateY(30px) scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+      position: relative;
+    }
+
+    .fullscreen-warning-modal.active .fullscreen-warning-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-icon-container-yellow {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 25px auto;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--neon-yellow);
+      box-shadow: 0 0 20px rgba(255, 234, 0, 0.3), inset 0 0 10px rgba(255, 234, 0, 0.1);
+      color: var(--neon-yellow);
+      background: rgba(255, 234, 0, 0.03);
+      animation: pulse-glow-yellow 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-glow-yellow {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 234, 0, 0.2), inset 0 0 5px rgba(255, 234, 0, 0.05);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(255, 234, 0, 0.5), inset 0 0 15px rgba(255, 234, 0, 0.2);
+        transform: scale(1.05);
+      }
+    }
+
+    .modal-title-yellow {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--text-main);
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+    }
+
+    .modal-title-yellow span.yellow {
+      color: var(--neon-yellow);
+      text-shadow: 0 0 12px var(--neon-yellow), 0 0 24px rgba(255, 234, 0, 0.3);
+    }
+
+    .modal-btn-yellow {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      padding: 13px 35px;
+      border-radius: 12px;
+      border: 1px solid var(--neon-yellow);
+      background: linear-gradient(135deg, var(--neon-yellow), #ff9000);
+      color: #030206;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 0 15px rgba(255, 234, 0, 0.3);
+      outline: none;
+    }
+
+    .modal-btn-yellow:hover {
+      box-shadow: 0 0 25px rgba(255, 234, 0, 0.6);
+      transform: scale(1.02);
+      border-color: #ffff33;
+    }
+
+    .modal-btn-yellow:active {
+      transform: scale(0.98);
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <button id="lang-toggle-btn" class="lang-toggle">English</button>
-        <h1 data-ko="종호의 양구관광 가이드" data-en="Jongho's Yanggu Tour Guide">종호의 양구관광 가이드</h1>
+
+  <!-- Tech Matrix Grid Background -->
+  <div class="grid-background"></div>
+  <div class="glow-orb orb-pink"></div>
+  <div class="glow-orb orb-cyan"></div>
+
+  <div class="portal-container">
+    <!-- Header Logo & Tagline -->
+    <header class="portal-header">
+      <h1 class="logo-glow"><span class="neon-pink">CYBER</span> ARCADE <span class="neon-cyan">PORTAL</span></h1>
+      <p class="tagline">다이나믹 네온 웹 미니게임 클릭! 클릭!</p>
     </header>
 
-    <div class="intro">
-        <p data-ko="안녕! 양구에 온 걸 환영해! 자연과 힐링, 그리고 청춘이 숨쉬는 이곳의 멋진 자연 관광지들을 내가 소개할게. 같이 구경해볼까? 🌲✨"
-            data-en="Hello! Welcome to Yanggu! I'll introduce you to the wonderful nature tourist spots here where nature, healing, and youth breathe. Shall we take a look? 🌲✨">
-            안녕! 양구에 온 걸 환영해! 자연과 힐링, 그리고 청춘이 숨쉬는 이곳의 멋진 자연 관광지들을 내가 소개할게. 같이 구경해볼까? 🌲✨
-        </p>
+    <!-- Grid Card Links -->
+    <main class="arcade-grid">
+
+      <!-- Card 1: RunningMouse -->
+      <a href="RunningMouse/RunningMouse.html" class="game-card card-mouse" id="btn-running-mouse">
+        <div class="thumbnail-container">
+          <img src="RunningMouse/mouse.png" alt="Running Mouse Icon" class="game-img">
+        </div>
+        <h2 class="game-title">RUNNING MOUSE</h2>
+        <p class="game-desc">시간의 흐름에 따라 점진적으로 가속하며 이동 방향을 바꾸는 사이버 마우스 클릭 게임입니다. 정밀한 스톱워치 측정 기술로 반응 속도를 테스트하고 파일럿 랭킹을 정복해
+          보세요!</p>
+        <div class="launch-btn">LAUNCH ENGINE</div>
+      </a>
+
+      <!-- Card 2: NumberPuzzle -->
+      <a href="NumberPuzzle/NumberPuzzle.html" class="game-card card-puzzle" id="btn-number-puzzle">
+        <div class="thumbnail-container">
+          <img src="NumberPuzzle/puzzle.png" alt="Number Puzzle Icon" class="game-img">
+        </div>
+        <h2 class="game-title">NUMBER PUZZLE</h2>
+        <p class="game-desc">슬라이딩 블록 디지털 퍼즐에서 최고의 인지 두뇌 능력을 발휘해 보세요. 4x4부터 9x9까지 가변식 격자 난이도에서 최소의 이동 횟수를 기록하세요.</p>
+        <div class="launch-btn">LAUNCH ENGINE</div>
+      </a>
+
+      <!-- Card 3: HoverEscape -->
+      <a href="HoverEscape/HoverEscape.html" class="game-card card-escape" id="btn-hover-escape">
+        <div class="thumbnail-container">
+          <img src="HoverEscape/airplane.png" alt="Hover Escape Icon" class="game-img">
+        </div>
+        <h2 class="game-title">HOVER ESCAPE</h2>
+        <p class="game-desc">미래형 네온 전투기를 조종하세요. 무작위 동굴 속에서 비행 각도를 부드럽게 글라이딩하며 좁은 지형을 탈출하세요!</p>
+        <div class="launch-btn">LAUNCH ENGINE</div>
+      </a>
+
+      <!-- Card 4: MeteorDefense -->
+      <a href="MeteorDefense/index.html" class="game-card card-meteor" id="btn-meteor-defense">
+        <div class="thumbnail-container">
+          <img src="MeteorDefense/meteor.png" alt="Meteor Defense Icon" class="game-img">
+        </div>
+        <h2 class="game-title">METEOR DEFENSE</h2>
+        <p class="game-desc">낙하하는 운석을 겨냥하여 강력한 레이저 빔을 방출하는 디펜스 게임입니다. 10초마다 빨라지는 파괴적인 운석의 위협으로부터 기지를 사수하세요!</p>
+        <div class="launch-btn">LAUNCH ENGINE</div>
+      </a>
+
+      <!-- Card 5: SliceSlide -->
+      <a href="SliceSlide/index.html" class="game-card card-slide" id="btn-slice-slide">
+        <div class="thumbnail-container">
+          <img src="SliceSlide/slide.png" alt="Slice Slide Icon" class="game-img">
+        </div>
+        <h2 class="game-title">SLICE SLIDE</h2>
+        <p class="game-desc">좌우/상하 사방에서 미끄러져 들어오는 네온 블록을 중앙의 핵심 코어에 정확히 정렬해 보세요! 오버슈팅된 여분의 슬라이스는 물리 효과로 잘려집니다.</p>
+        <div class="launch-btn">LAUNCH ENGINE</div>
+      </a>
+
+      <!-- Card 6: DifferentColor -->
+      <a href="DifferentColor/index.html" class="game-card card-color" id="btn-different-color">
+        <div class="thumbnail-container">
+          <img src="DifferentColor/color.png" alt="Different Color Icon" class="game-img">
+        </div>
+        <h2 class="game-title">DIFFERENT COLOR</h2>
+        <p class="game-desc">미세하게 다른 명도를 지닌 단 하나의 격자 블록을 찾아 제한 시간 내 클릭하세요! 레벨이 상승함에 따라 극도의 감각과 명도 차이를 파악해야 하는 색각 테스트
+          아케이드입니다.</p>
+        <div class="launch-btn">LAUNCH ENGINE</div>
+      </a>
+
+    </main>
+
+    <!-- Bottom Horizontal Ad Banner -->
+    <section class="bottom-ad-section">
+      <div class="ad-banner-horizontal glassmorphism" aria-label="Sponsored Carousel Advertisement">
+        <script src="https://ads-partners.coupang.com/g.js"></script>
+        <script>
+          new PartnersCoupang.G({ "id": 992770, "template": "carousel", "trackingCode": "AF6385769", "width": "680", "height": "140", "tsource": "" });
+        </script>
+      </div>
+      <p class="partners-disclosure">
+        이 사이트는 쿠팡 파트너스활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+      </p>
+    </section>
+
+    <!-- Footer Copyright -->
+    <footer class="portal-footer">
+      <p>&copy; 2026 CYBERNEON by bestHOI.</p>
+    </footer>
+  </div>
+
+  <!-- PC Warning Modal -->
+  <div class="pc-warning-modal" id="pc-warning-modal">
+    <div class="pc-warning-card">
+      <div class="modal-icon-container">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+          <line x1="12" y1="7" x2="12" y2="10"></line>
+          <line x1="12" y1="13" x2="12.01" y2="13"></line>
+        </svg>
+      </div>
+      <h2 class="modal-title">SYSTEM <span class="cyan">NOTICE</span></h2>
+      <p class="modal-message">이 페이지는 <strong>PC 브라우저 환경</strong>에 최적화 되어 있습니다.</p>
+      <button class="modal-btn" id="close-modal-btn">SYSTEM CONFIRM</button>
     </div>
+  </div>
 
-    <section>
-        <h2 data-ko="📸 추천 자연 관광지" data-en="📸 Recommended Nature Spots">📸 추천 자연 관광지</h2>
-        <div class="gallery">
-            <a href="https://search.naver.com/search.naver?query=양구+두타연" target="_blank" class="gallery-item">
-                <img src="yanggu_dutayeon.png" alt="두타연">
-                <h3 data-ko="두타연" data-en="Dutayeon Valley">두타연</h3>
-            </a>
-            <a href="https://search.naver.com/search.naver?query=양구수목원" target="_blank" class="gallery-item">
-                <img src="yanggu_arboretum.png" alt="양구수목원">
-                <h3 data-ko="양구수목원" data-en="Yanggu Arboretum">양구수목원</h3>
-            </a>
-            <a href="https://search.naver.com/search.naver?query=양구+한반도섬" target="_blank" class="gallery-item">
-                <img src="yanggu_hanbando_island.png" alt="한반도섬">
-                <h3 data-ko="한반도섬" data-en="Korean Peninsula Island">한반도섬</h3>
-            </a>
-            <a href="https://search.naver.com/search.naver?query=양구+광치계곡" target="_blank" class="gallery-item">
-                <img src="yanggu_gwangchi.png" alt="광치계곡">
-                <h3 data-ko="광치계곡" data-en="Gwangchi Valley">광치계곡</h3>
-            </a>
-        </div>
-    </section>
-
-    <section class="gomchwi-section">
-        <h2 data-ko="🌿 양구 특산물: 곰취" data-en="🌿 Yanggu's Specialty: Gomchwi">🌿 양구 특산물: 곰취</h2>
-        <div class="gomchwi-container">
-            <div class="gomchwi-image">
-                <img src="yanggu_gomchwi.png" alt="양구 곰취">
-            </div>
-            <div class="gomchwi-info">
-                <div class="info-block">
-                    <h3 data-ko="🐻 곰취 명칭의 유래" data-en="🐻 Origin of the Name Gomchwi">🐻 곰취 명칭의 유래</h3>
-                    <p data-ko="'곰취'는 곰이 좋아하는 나물이라는 뜻에서 유래되었어. 깊은 산속의 곰이 겨울잠에서 깨어나 기력을 회복하기 위해 이 나물을 즐겨 먹는다고 하여 이름 붙여졌다는 설과, 잎의 모양이 둥글고 넓적하여 귀여운 곰의 발바닥을 닮았다고 하여 유래했다는 흥미로운 이야기가 전해지고있어."
-                        data-en="'Gomchwi' (Ligularia fischeri) gets its name from a bear ('Gom' in Korean). There is a legend that bears waking up from hibernation in deep mountains eat this herb to regain their strength. Another charming story suggests its broad, rounded leaves resemble a cute bear's paw.">
-                        '곰취'는 곰이 좋아하는 나물이라는 뜻에서 유래되었어. 깊은 산속의 곰이 겨울잠에서 깨어나 기력을 회복하기 위해 이 나물을 즐겨 먹는다고 하여 이름 붙여졌다는 설과, 잎의
-                        모양이 둥글고 넓적하여 귀여운 곰의 발바닥을 닮았다고 하여 유래했다는 흥미로운 이야기가 전해지고있어.
-                    </p>
-                </div>
-                <div class="info-block">
-                    <h3 data-ko="💪 곰취의 주요 효능" data-en="💪 Key Health Benefits">💪 곰취의 주요 효능</h3>
-                    <ul>
-                        <li>
-                            <strong data-ko="🌿 항산화 및 노화 방지" data-en="🌿 Antioxidant & Anti-aging">🌿 항산화 및 노화
-                                방지</strong>
-                            <span data-ko=" : 폴리페놀과 베타카로틴이 풍부하여 노화를 억제하고 면역력을 높여줘."
-                                data-en=" : Rich in antioxidants to prevent aging and boost immunity."> : 폴리페놀과 베타카로틴이
-                                풍부하여 노화를 억제하고 면역력을 높여줘.</span>
-                        </li>
-                        <li>
-                            <strong data-ko="🌿 혈관 건강" data-en="🌿 Cardiovascular Health">🌿 혈관 건강</strong>
-                            <span data-ko=" : 혈액순환을 돕고 혈관 속 나트륨 및 노폐물 배출에 효과적이야."
-                                data-en=" : Improves blood circulation and helps expel waste from blood vessels."> :
-                                혈액순환을 돕고 혈관 속 나트륨 및 노폐물 배출에 효과적이야.</span>
-                        </li>
-                        <li>
-                            <strong data-ko="🌿 기관지 건강" data-en="🌿 Respiratory Health">🌿 기관지 건강</strong>
-                            <span data-ko=" : 폐를 튼튼하게 하고 가래를 삭여 기침과 천식 증상 완화에 좋아."
-                                data-en=" : Strengthens lungs, dissolves phlegm, and helps ease cough and asthma."> : 폐를
-                                튼튼하게 하고 가래를 삭여 기침과 천식 증상 완화에 좋아.</span>
-                        </li>
-                        <li>
-                            <strong data-ko="🌿 피로 회복" data-en="🌿 Fatigue Recovery">🌿 피로 회복</strong>
-                            <span data-ko=" : 비타민 C가 가득해 피로를 해소하고 봄철 춘곤증을 이겨내게 해줘."
-                                data-en=" : Abundant Vitamin C reduces tiredness and revitalizes your body."> : 비타민 C가
-                                가득해 피로를 해소하고 봄철 춘곤증을 이겨내게 해줘.</span>
-                        </li>
-                        <li>
-                            <strong data-ko="🌿 다이어트 & 변비 예방" data-en="🌿 Diet & Digestion">🌿 다이어트 & 변비 예방</strong>
-                            <span data-ko=" : 식이섬유가 풍부해 소화를 돕고 칼로리가 낮아 다이어트에 제격이야."
-                                data-en=" : Rich in fiber to prevent constipation and very low in calories."> : 식이섬유가
-                                풍부해 소화를 돕고 칼로리가 낮아 다이어트에 제격이야.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 data-ko="📺 양구 랜선 여행" data-en="📺 Yanggu Virtual Tour">📺 양구 랜선 여행</h2>
-        <div class="videos">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/2KNK47lWBZY" title="Yanggu Video 1" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-                <!-- 💡 팁: 원하는 양구 유튜브 영상의 주소가 https://www.youtube.com/watch?v=ABCD 라면, 위 src 주소의 끝부분을 /embed/ABCD 로 변경해주세요! -->
-            </div>
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/eb6k3n3IKXk" title="Yanggu Video 2" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-                <!-- 💡 팁: 원하는 양구 유튜브 영상의 주소가 https://www.youtube.com/watch?v=ABCD 라면, 위 src 주소의 끝부분을 /embed/ABCD 로 변경해주세요! -->
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 data-ko="🗺️ 양구 관광 지도" data-en="🗺️ Yanggu Tourist Map">🗺️ 양구 관광 지도</h2>
-        <div class="map-container">
-            <img src="yanggu_tour_map0405.jpg" alt="양구 관광지도">
-        </div>
-    </section>
-    <!--
-    <section class="contact-section">
-        <h2 data-ko="✉️ 양구 여행 문의하기" data-en="✉️ Inquiry about Yanggu Trip">✉️ 양구 여행 문의하기</h2>
-        <div class="contact-container">
-            <form id="contact-form" class="contact-form">
-                <div class="form-group">
-                    <label for="from-name" data-ko="🙋‍♂️ 이름" data-en="🙋‍♂️ Name">🙋‍♂️ 이름</label>
-                    <input type="text" id="from-name" name="name" required placeholder="이름을 입력해주세요." data-ko-placeholder="이름을 입력해주세요." data-en-placeholder="Enter your name">
-                </div>
-                <div class="form-group">
-                    <label for="from-email" data-ko="📧 이메일 주소" data-en="📧 Email Address">📧 이메일 주소</label>
-                    <input type="email" id="from-email" name="email" required placeholder="답변받으실 이메일을 입력해주세요." data-ko-placeholder="답변받으실 이메일을 입력해주세요." data-en-placeholder="Enter your email address">
-                </div>
-                <div class="form-group">
-                    <label for="msg-title" data-ko="📌 문의 제목" data-en="📌 Title">📌 문의 제목</label>
-                    <input type="text" id="msg-title" name="title" required placeholder="문의 제목을 입력해주세요." data-ko-placeholder="문의 제목을 입력해주세요." data-en-placeholder="Enter inquiry title">
-                </div>
-                <div class="form-group">
-                    <label for="msg-content" data-ko="💬 문의 내용" data-en="💬 Message">💬 문의 내용</label>
-                    <textarea id="msg-content" name="message" required rows="5" placeholder="문의하실 내용을 자유롭게 작성해주세요." data-ko-placeholder="문의하실 내용을 자유롭게 작성해주세요." data-en-placeholder="Write your message here..."></textarea>
-                </div>
-                <button type="submit" id="send-btn" class="btn-submit" data-ko="🚀 문의 전송하기" data-en="🚀 Send Message">🚀 문의 전송하기</button>
-            </form>
-            <div id="form-status" class="form-status" style="display: none;"></div>
-        </div>
-    </section>
--->
-    <div class="quick-links">
-        <a href="https://www.instagram.com/yanggu_tour/" target="_blank" data-ko="인스타그램" data-en="Instagram">인스타그램</a>
-        <a href="http://www.ygtour.kr" target="_blank" data-ko="양구관광홈페이지" data-en="Official Homepage">양구관광홈페이지</a>
-        <a href="traffic.html" data-ko="교통안내" data-en="Traffic Info">교통안내</a>
-        <a href="useful.html" data-ko="유용한 정보" data-en="Useful Info">유용한 정보</a>
+  <!-- Fullscreen Warning Modal -->
+  <div class="fullscreen-warning-modal" id="fullscreen-warning-modal">
+    <div class="fullscreen-warning-card">
+      <div class="modal-icon-container-yellow">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+      </div>
+      <h2 class="modal-title-yellow">FULLSCREEN <span class="yellow">REQUIRED</span></h2>
+      <p class="modal-message">전체화면으로 변경해 주세요.</p>
+      <button class="modal-btn-yellow" id="close-fs-modal-btn">GO FULLSCREEN</button>
     </div>
+  </div>
 
-    <!-- Educational Notice Modal -->
-    <div id="notice-modal" class="modal-overlay">
-        <div class="modal-card">
-            <h3 data-ko="📢 안내" data-en="📢 Notice">📢 안내</h3>
-            <p data-ko="이 사이트는 교육용으로 제작된 페이지입니다." data-en="This site has been created for educational purposes.">
-                이 사이트는 교육용으로 제작된 페이지입니다.
-            </p>
-            <button id="modal-close-btn" class="modal-btn" data-ko="확인" data-en="OK">확인</button>
-        </div>
-    </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if browser is NOT PC
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isMobile = /android|avantgo|blackberry|iemobile|ipad|iphone|ipod|j2me|midp|mmp|mobile|o2|opera mini|palm|plucker|pocket|psp|smartphone|symbian|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino/i.test(userAgent) ||
+                      (/Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1) || // iPad Pro, etc.
+                      (window.innerWidth <= 1024 && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
 
-    <script src="script.js"></script>
+      if (isMobile) {
+        const modal = document.getElementById('pc-warning-modal');
+        const closeBtn = document.getElementById('close-modal-btn');
+        
+        // Show modal with a short delay for smooth entrance animation
+        setTimeout(() => {
+          modal.classList.add('active');
+        }, 500);
+
+        closeBtn.addEventListener('click', () => {
+          modal.classList.remove('active');
+        });
+      } else {
+        // Desktop/PC browser: check for fullscreen
+        const fsModal = document.getElementById('fullscreen-warning-modal');
+        const fsBtn = document.getElementById('close-fs-modal-btn');
+
+        function checkIsFullscreen() {
+          const apiFullscreen = !!(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+          );
+          if (apiFullscreen) return true;
+
+          const widthDiff = Math.abs(window.innerWidth - window.screen.width);
+          const heightDiff = Math.abs(window.innerHeight - window.screen.height);
+          const outerWidthDiff = Math.abs(window.outerWidth - window.screen.width);
+          const outerHeightDiff = Math.abs(window.outerHeight - window.screen.height);
+
+          return (widthDiff <= 8 && heightDiff <= 8) || (outerWidthDiff <= 8 && outerHeightDiff <= 8);
+        }
+
+        function updateFullscreenModal() {
+          if (checkIsFullscreen()) {
+            fsModal.classList.remove('active');
+          } else {
+            fsModal.classList.add('active');
+          }
+        }
+
+        // Delay initial check slightly for smooth loading and user orientation
+        setTimeout(updateFullscreenModal, 800);
+
+        // Listen to resizing and fullscreen state changes
+        window.addEventListener('resize', updateFullscreenModal);
+        document.addEventListener('fullscreenchange', updateFullscreenModal);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenModal);
+        document.addEventListener('mozfullscreenchange', updateFullscreenModal);
+        document.addEventListener('MSFullscreenChange', updateFullscreenModal);
+
+        // Request fullscreen on button click
+        fsBtn.addEventListener('click', () => {
+          const elem = document.documentElement;
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+          } else {
+            fsModal.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
+
 </body>
 
 </html>

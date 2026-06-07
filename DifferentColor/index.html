@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="DifferentColor - Find the odd colored tile! High-fidelity color distinction matrix game. Challenge your cognitive perception limits.">
+  <title>Different Color Finder // Cyber Neon Arcade</title>
+
+  <!-- Premium Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&family=Rajdhani:wght@500;700;900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Tech Matrix Grid Background -->
+  <div class="space-background"></div>
+  <div class="grid-overlay"></div>
+  <div class="ambient-glow pink"></div>
+  <div class="ambient-glow cyan"></div>
+
+  <!-- Main Horizontal Layout Wrapper -->
+  <div class="main-layout-wrapper">
+
+    <!-- Arcade Main Deck Container -->
+    <div class="arcade-deck">
+
+      <!-- Top HUD & Command Bar -->
+      <header class="hud-header">
+        <div class="hud-left">
+          <div class="led-score-panel">
+            <span class="label">난이도 GRID</span>
+            <span class="value" id="grid-size-val">3 X 3</span>
+          </div>
+        </div>
+
+        <div class="hud-center">
+          <div class="gauge-label-container">
+            <span class="gauge-label">ENERGY SOURCE (5.00s)</span>
+          </div>
+          <div class="time-gauge-track">
+            <div id="time-gauge-bar" class="time-gauge-fill"></div>
+          </div>
+        </div>
+
+        <div class="hud-right">
+          <button id="btn-start" class="btn btn-neon-pink">
+            <span class="btn-text">게임 시작</span>
+            <span class="btn-glow"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Game Viewport (Exactly 800x800px) -->
+      <main class="game-viewport">
+
+        <!-- Interactive Game Color Grid -->
+        <div id="grid-container" class="grid-container">
+          <!-- Dynamically populated borderless grid tiles in app.js -->
+        </div>
+
+        <!-- UI OVERLAY: Start Screen -->
+        <div id="overlay-start" class="overlay glassmorphism active">
+          <div class="overlay-content">
+            <div class="warning-icon-wrapper">
+              <span class="warning-icon">◈</span>
+            </div>
+            <h2 class="overlay-title">COLOR MATRIX OVERLOAD</h2>
+            <p class="overlay-desc">
+              구분하기 힘든 단 하나의 '다른 색상'의 칸을 제한 시간 안에 찾아내세요!
+              <br><br>
+              <span class="text-highlight">게임 규칙:</span>
+              <br>
+              - 3회 통과할 때마다 격자 크기가 늘어납니다 (3x3 → 4x4 → 5x5...).
+              <br>
+              - 난이도가 올라갈수록 색상의 차이가 점점 미세해집니다.
+              <br>
+              - 잘못된 칸을 클릭하거나 5초의 타임 게이지가 모두 소모되면 게임이 종료됩니다.
+            </p>
+            <div class="speed-warning">
+              <span class="alert-pulse">⚡ ALERT:</span> 극도로 미세한 명도와 색도 변화를 감지해야 합니다!
+            </div>
+            <button id="btn-start-overlay" class="btn btn-neon-cyan">
+              <span class="btn-text">매트릭스 접속</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- UI OVERLAY: Game Over & Ranking Registry -->
+        <div id="overlay-gameover" class="overlay glassmorphism">
+          <div class="overlay-content">
+            <div class="danger-header">
+              <span class="skull-icon">🔒</span>
+              <h2 class="overlay-title danger-text">SYSTEM TERMINATED</h2>
+            </div>
+            <p class="overlay-desc">
+              색상 동조 오류 또는 타임오버로 동기화가 실패하였습니다.
+            </p>
+
+            <!-- Final Score Panel -->
+            <div class="final-score-card">
+              <span class="card-label">클리어 스테이지 (CLEARED STAGES)</span>
+              <span class="card-val" id="final-score-val">0</span>
+            </div>
+
+            <!-- Name Entry Form -->
+            <div class="record-submission">
+              <label for="player-name" class="entry-label">기록 등록을 위한 플레이어명 입력</label>
+              <div class="input-group">
+                <input type="text" id="player-name" maxlength="12" placeholder="OPERATOR..." autocomplete="off">
+                <button id="btn-submit-score" class="btn btn-neon-yellow">
+                  <span class="btn-text">기록 등록</span>
+                </button>
+              </div>
+              <p id="submission-error" class="error-msg"></p>
+            </div>
+
+            <!-- Local Leaderboard Segment (Top 20 Rankings) -->
+            <div class="leaderboard-section">
+              <h3 class="leaderboard-title">LEADERBOARD // TOP 20</h3>
+              <div class="leaderboard-table-container">
+                <table class="leaderboard-table">
+                  <thead>
+                    <tr>
+                      <th>RANK</th>
+                      <th>PLAYER</th>
+                      <th>CLEARED</th>
+                      <th>TIMESTAMP</th>
+                    </tr>
+                  </thead>
+                  <tbody id="leaderboard-body">
+                    <!-- Generated dynamically in app.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <button id="btn-restart" class="btn btn-neon-pink" style="margin-top: 15px;">
+              <span class="btn-text">매트릭스 재접속</span>
+            </button>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Bottom Controls & Ad Desk -->
+      <footer class="hud-footer">
+        <div class="footer-left" style="width: 100%; display: flex; justify-content: center;">
+          <button id="btn-view-ranking" class="btn btn-glass" style="width: 280px;">
+            <span class="icon">🏆</span>
+            <span class="btn-text">랭킹보기 (1위 - 20위)</span>
+          </button>
+        </div>
+      </footer>
+
+    </div>
+
+    <!-- Right Aside Ad Panel -->
+    <aside class="ad-side-panel">
+      <a href="../index.html" class="home-btn" aria-label="Go to Main Hub">
+        <span class="home-icon">🏠</span> 메인 페이지로 돌아가기
+      </a>
+      <div class="ad-banner-container glassmorphism" aria-label="Sponsored Advertisement">
+        <script src="https://ads-partners.coupang.com/g.js"></script>
+        <script>
+          new PartnersCoupang.G({ "id": 992758, "template": "carousel", "trackingCode": "AF6385769", "width": "140", "height": "680", "tsource": "" });
+        </script>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- LEADERBOARD DEDICATED MODAL (Accessible via bottom button) -->
+  <div id="modal-ranking" class="modal-overlay glassmorphism">
+    <div class="modal-card">
+      <header class="modal-header">
+        <h2 class="modal-title"><span class="gold-text">🏆</span> 명예의 전당</h2>
+        <button id="btn-close-modal" class="btn-close">&times;</button>
+      </header>
+      <div class="modal-body">
+        <div class="leaderboard-table-container modal-table">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>RANK</th>
+                <th>PLAYER</th>
+                <th>CLEARED</th>
+                <th>TIMESTAMP</th>
+              </tr>
+            </thead>
+            <tbody id="modal-leaderboard-body">
+              <!-- Generated dynamically in app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Warning Initializer Modal for browsers blocking Web Audio by default -->
+  <div id="audio-warmup-toast" class="audio-toast hidden">
+    <span>🔊 Synth Audio Ready</span>
+  </div>
+
+  <!-- Core Script -->
+  <script src="app.js"></script>
+
+  <!-- Fullscreen Warning Modal -->
+  <div class="fullscreen-warning-modal" id="fullscreen-warning-modal">
+    <div class="fullscreen-warning-card">
+      <div class="modal-icon-container-yellow">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+      </div>
+      <h2 class="modal-title-yellow">FULLSCREEN <span class="yellow">REQUIRED</span></h2>
+      <p class="modal-message">전체화면으로 변경해 주세요.</p>
+      <button class="modal-btn-yellow" id="close-fs-modal-btn">GO FULLSCREEN</button>
+    </div>
+  </div>
+
+  <style>
+    /* ==========================================================================
+       Fullscreen warning modal (Self-contained defaults)
+       ========================================================================== */
+    .fullscreen-warning-modal {
+      --modal-glass-bg: rgba(12, 8, 22, 0.9);
+      --modal-neon-yellow: #ffff00;
+      --modal-text-main: #f5f0fa;
+      --modal-text-muted: #827e99;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(3, 2, 6, 0.9);
+      backdrop-filter: blur(15px) saturate(180%);
+      -webkit-backdrop-filter: blur(15px) saturate(180%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fullscreen-warning-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .fullscreen-warning-card {
+      background: var(--modal-glass-bg);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      border: 2px solid var(--modal-neon-yellow);
+      border-radius: 28px;
+      padding: 45px 35px;
+      width: 90%;
+      max-width: 460px;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(255, 234, 0, 0.25), inset 0 0 20px rgba(255, 234, 0, 0.1);
+      transform: translateY(30px) scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+      position: relative;
+    }
+
+    .fullscreen-warning-modal.active .fullscreen-warning-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-icon-container-yellow {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 25px auto;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--modal-neon-yellow);
+      box-shadow: 0 0 20px rgba(255, 234, 0, 0.3), inset 0 0 10px rgba(255, 234, 0, 0.1);
+      color: var(--modal-neon-yellow);
+      background: rgba(255, 234, 0, 0.03);
+      animation: pulse-glow-yellow-game 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-glow-yellow-game {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 234, 0, 0.2), inset 0 0 5px rgba(255, 234, 0, 0.05);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(255, 234, 0, 0.5), inset 0 0 15px rgba(255, 234, 0, 0.2);
+        transform: scale(1.05);
+      }
+    }
+
+    .modal-title-yellow {
+      font-family: 'Orbitron', 'Poppins', sans-serif;
+      font-weight: 900;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--modal-text-main);
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+    }
+
+    .modal-title-yellow span.yellow {
+      color: var(--modal-neon-yellow);
+      text-shadow: 0 0 12px var(--modal-neon-yellow), 0 0 24px rgba(255, 234, 0, 0.3);
+    }
+
+    .modal-message {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--modal-text-muted);
+      margin-bottom: 30px;
+      word-break: keep-all;
+    }
+
+    .modal-btn-yellow {
+      font-family: 'Rajdhani', 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      padding: 13px 35px;
+      border-radius: 12px;
+      border: 1px solid var(--modal-neon-yellow);
+      background: linear-gradient(135deg, var(--modal-neon-yellow), #ff9000);
+      color: #030206;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 0 15px rgba(255, 234, 0, 0.3);
+      outline: none;
+    }
+
+    .modal-btn-yellow:hover {
+      box-shadow: 0 0 25px rgba(255, 234, 0, 0.6);
+      transform: scale(1.02);
+      border-color: #ffff33;
+    }
+
+    .modal-btn-yellow:active {
+      transform: scale(0.98);
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if browser is NOT PC
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isMobile = /android|avantgo|blackberry|iemobile|ipad|iphone|ipod|j2me|midp|mmp|mobile|o2|opera mini|palm|plucker|pocket|psp|smartphone|symbian|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino/i.test(userAgent) ||
+                      (/Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1) || // iPad Pro, etc.
+                      (window.innerWidth <= 1024 && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
+
+      if (!isMobile) {
+        // Desktop/PC browser: check for fullscreen
+        const fsModal = document.getElementById('fullscreen-warning-modal');
+        const fsBtn = document.getElementById('close-fs-modal-btn');
+
+        function checkIsFullscreen() {
+          const apiFullscreen = !!(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+          );
+          if (apiFullscreen) return true;
+
+          const widthDiff = Math.abs(window.innerWidth - window.screen.width);
+          const heightDiff = Math.abs(window.innerHeight - window.screen.height);
+          const outerWidthDiff = Math.abs(window.outerWidth - window.screen.width);
+          const outerHeightDiff = Math.abs(window.outerHeight - window.screen.height);
+
+          return (widthDiff <= 8 && heightDiff <= 8) || (outerWidthDiff <= 8 && outerHeightDiff <= 8);
+        }
+
+        function updateFullscreenModal() {
+          if (checkIsFullscreen()) {
+            fsModal.classList.remove('active');
+          } else {
+            fsModal.classList.add('active');
+          }
+        }
+
+        // Delay initial check slightly for smooth loading and user orientation
+        setTimeout(updateFullscreenModal, 800);
+
+        // Listen to resizing and fullscreen state changes
+        window.addEventListener('resize', updateFullscreenModal);
+        document.addEventListener('fullscreenchange', updateFullscreenModal);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenModal);
+        document.addEventListener('mozfullscreenchange', updateFullscreenModal);
+        document.addEventListener('MSFullscreenChange', updateFullscreenModal);
+
+        // Request fullscreen on button click
+        fsBtn.addEventListener('click', () => {
+          const elem = document.documentElement;
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+          } else {
+            fsModal.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
