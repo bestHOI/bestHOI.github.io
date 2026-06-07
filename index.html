@@ -255,7 +255,7 @@
       box-shadow: 0 0 25px rgba(255, 0, 127, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
     }
 
-     .card-color:hover {
+    .card-color:hover {
       border-color: var(--neon-cyan);
       box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
     }
@@ -680,10 +680,13 @@
     }
 
     @keyframes pulse-glow {
-      0%, 100% {
+
+      0%,
+      100% {
         box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 5px rgba(0, 240, 255, 0.05);
         transform: scale(1);
       }
+
       50% {
         box-shadow: 0 0 25px rgba(0, 240, 255, 0.5), inset 0 0 15px rgba(0, 240, 255, 0.2);
         transform: scale(1.05);
@@ -744,8 +747,6 @@
     .modal-btn:active {
       transform: scale(0.98);
     }
-
-
   </style>
 </head>
 
@@ -760,7 +761,7 @@
     <!-- Header Logo & Tagline -->
     <header class="portal-header">
       <h1 class="logo-glow"><span class="neon-pink">CYBER</span> ARCADE <span class="neon-cyan">PORTAL</span></h1>
-      <p class="tagline">다이나믹 네온 웹 미니게임 클릭! 클릭!</p>
+      <p class="tagline">모든 게임은 마우스 클릭으로 진행됩니다.</p>
     </header>
 
     <!-- Grid Card Links -->
@@ -883,7 +884,8 @@
   <div class="pc-warning-modal" id="pc-warning-modal">
     <div class="pc-warning-card">
       <div class="modal-icon-container">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
           <line x1="8" y1="21" x2="16" y2="21"></line>
           <line x1="12" y1="17" x2="12" y2="21"></line>
@@ -904,13 +906,13 @@
       // Check if browser is NOT PC
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
       const isMobile = /android|avantgo|blackberry|iemobile|ipad|iphone|ipod|j2me|midp|mmp|mobile|o2|opera mini|palm|plucker|pocket|psp|smartphone|symbian|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino/i.test(userAgent) ||
-                      (/Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1) || // iPad Pro, etc.
-                      (window.innerWidth <= 1024 && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
+        (/Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1) || // iPad Pro, etc.
+        (window.innerWidth <= 1024 && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
 
       if (isMobile) {
         const modal = document.getElementById('pc-warning-modal');
         const closeBtn = document.getElementById('close-modal-btn');
-        
+
         // Show modal with a short delay for smooth entrance animation
         setTimeout(() => {
           modal.classList.add('active');
