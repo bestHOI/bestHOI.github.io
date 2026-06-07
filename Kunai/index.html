@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kunai - High-stakes cyber neon throwing knife game. Shoot falling fuse bombs, upgrade your kunai, and conquer the leaderboard!">
+  <title>Kunai Defense System</title>
+  
+  <!-- Premium Sci-Fi Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Futuristic Sci-Fi Starfield Background -->
+  <div class="space-background"></div>
+  <div class="grid-overlay"></div>
+  <div class="ambient-glow green"></div>
+  <div class="ambient-glow yellow"></div>
+
+  <!-- Main Horizontal Layout Wrapper -->
+  <div class="main-layout-wrapper">
+    
+    <!-- Arcade Main Deck Container -->
+    <div class="arcade-deck">
+      
+      <!-- Top HUD & Command Bar -->
+      <header class="hud-header">
+        <div class="hud-left">
+          <div class="status-indicator-dot animate-pulse"></div>
+          <div class="led-score-panel">
+            <span class="label">제거한 폭탄</span>
+            <span class="value" id="score-val">000</span>
+          </div>
+          <div class="ammo-panel" id="hud-ammo-panel">
+            <span class="ammo-icon">🗡️</span>
+            <span class="ammo-text" id="ammo-status-val">AMMO 1/1</span>
+          </div>
+        </div>
+        
+        <div class="hud-center">
+          <h1 class="logo-title"><span class="green-neon">KUNAI</span> <span class="yellow-neon">STORM</span></h1>
+        </div>
+        
+        <div class="hud-right">
+          <button id="btn-start" class="btn btn-neon-green">
+            <span class="btn-text">디펜스 가동</span>
+            <span class="btn-glow"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Game Viewport (Exactly 800x800px) -->
+      <main class="game-viewport">
+        
+        <!-- Canvas Renderer -->
+        <canvas id="game-canvas" width="800" height="800"></canvas>
+        
+        <!-- UI OVERLAY: Start Screen -->
+        <div id="overlay-start" class="overlay glassmorphism active">
+          <div class="overlay-content">
+            <div class="warning-icon-wrapper">
+              <span class="warning-icon">🗡️</span>
+            </div>
+            <h2 class="overlay-title">쿠나이 스톰 디펜스 (SYSTEM ONLINE)</h2>
+            <p class="overlay-desc">
+              떨어지는 시한폭탄들이 폭발하기 전에 제거하세요!
+              <br><br>
+              <span class="text-highlight">조작 방법:</span> 하단 발사대에서 쿠나이의 발사 각도가 좌우로 자동 회전합니다. 
+              **마우스 클릭(또는 스페이스바)**을 누르는 순간의 각도로 쿠나이가 즉시 발사됩니다.
+              <br><br>
+              <span class="danger-text">규칙:</span> 폭탄 위에 적힌 타이머는 9초부터 카운트다운 되며, **0초가 되는 순간** 터져 게임이 즉시 종료됩니다. 테두리에 닿거나 폭탄에 맞은 쿠나이가 사라져야 다음 투척이 가능합니다.
+            </p>
+            <div class="speed-warning">
+              <span class="alert-pulse">⚡ 업그레이드 프로토콜:</span> 폭탄을 20개 제거할 때마다 게임이 멈추고 수리검 스펙 업그레이드가 활성화됩니다! (만랩 도달 시 수량 업그레이드 개방)
+            </div>
+            <button id="btn-start-overlay" class="btn btn-neon-cyan">
+              <span class="btn-text">격퇴 방어선 가동</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- UI OVERLAY: Upgrade Screen (Pops up every 20 scores) -->
+        <div id="overlay-upgrade" class="overlay glassmorphism">
+          <div class="overlay-content upgrade-card-container">
+            <h2 class="overlay-title upgrade-title"><span class="yellow-neon">KUNAI</span> UPGRADE SYSTEM</h2>
+            <p class="overlay-desc">성공적으로 웨이브를 클리어했습니다. 쿠나이 강화 항목을 선택해 주세요.</p>
+            
+            <div class="upgrade-options" id="upgrade-standard-options">
+              <!-- Option 1: Speed -->
+              <div class="upgrade-card" id="up-card-speed">
+                <div class="card-icon">⚡</div>
+                <h3>수리검 속도</h3>
+                <p class="up-desc">쿠나이의 비행 속도가 10% 증가합니다.</p>
+                <div class="level-indicator">
+                  <span class="level-text" id="level-txt-speed">Lv. 0 / 10</span>
+                  <div class="level-bar-bg"><div class="level-bar-fill" id="level-fill-speed" style="width: 0%;"></div></div>
+                </div>
+                <button class="btn btn-neon-green up-btn" id="btn-up-speed">강화 SELECT</button>
+              </div>
+
+              <!-- Option 2: Size -->
+              <div class="upgrade-card" id="up-card-size">
+                <div class="card-icon">📏</div>
+                <h3>수리검 크기</h3>
+                <p class="up-desc">쿠나이의 피격 물리 크기가 10% 증가합니다.</p>
+                <div class="level-indicator">
+                  <span class="level-text" id="level-txt-size">Lv. 0 / 10</span>
+                  <div class="level-bar-bg"><div class="level-bar-fill" id="level-fill-size" style="width: 0%;"></div></div>
+                </div>
+                <button class="btn btn-neon-green up-btn" id="btn-up-size">강화 SELECT</button>
+              </div>
+
+              <!-- Option 3: Penetration -->
+              <div class="upgrade-card" id="up-card-penetration">
+                <div class="card-icon">🌀</div>
+                <h3>수리검 관통</h3>
+                <p class="up-desc">명중 시 소멸하지 않고 통과할 확률이 10% 증가합니다.</p>
+                <div class="level-indicator">
+                  <span class="level-text" id="level-txt-penetration">Lv. 0 / 10</span>
+                  <div class="level-bar-bg"><div class="level-bar-fill" id="level-fill-penetration" style="width: 0%;"></div></div>
+                </div>
+                <button class="btn btn-neon-green up-btn" id="btn-up-penetration">강화 SELECT</button>
+              </div>
+            </div>
+
+            <!-- Option Special: Quantity (Only active when all standard maxed) -->
+            <div class="upgrade-special-box hidden" id="upgrade-special-box">
+              <div class="upgrade-card special-card" id="up-card-quantity">
+                <div class="card-icon">🔥</div>
+                <h3>[SPECIAL] 수리검 수량 업그레이드</h3>
+                <p class="up-desc">최대 동시 투척 가능한 쿠나이의 개수를 1개 늘립니다. (소멸하지 않아도 연속 발사 가능)</p>
+                <div class="level-indicator text-center">
+                  <span class="level-text" id="level-txt-quantity">현재 수량: 1개</span>
+                </div>
+                <button class="btn btn-neon-yellow up-btn" style="width: 100%; max-width: 300px; margin: 10px auto 0 auto;" id="btn-up-quantity">동시 투척 개수 +1</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- UI OVERLAY: Game Over & Ranking Registry -->
+        <div id="overlay-gameover" class="overlay glassmorphism">
+          <div class="overlay-content">
+            <div class="danger-header">
+              <span class="skull-icon">💥</span>
+              <h2 class="overlay-title danger-text">기지 폭발 (DETONATED)</h2>
+            </div>
+            <p class="overlay-desc">
+              시한폭탄의 카운트다운이 0에 도달하여 대폭발을 일으켰습니다. 방어선이 무너졌습니다.
+            </p>
+            
+            <!-- Final Score Panel -->
+            <div class="final-score-card">
+              <span class="card-label">제거한 폭탄 수 (TOTAL BOMBS DEFUSED)</span>
+              <span class="card-val" id="final-score-val">0</span>
+            </div>
+
+            <!-- Name Entry Form -->
+            <div class="record-submission">
+              <label for="player-name" class="entry-label">랭킹 보드 등록용 대원 코드 입력</label>
+              <div class="input-group">
+                <input type="text" id="player-name" maxlength="12" placeholder="PILOT_ID..." autocomplete="off">
+                <button id="btn-submit-score" class="btn btn-neon-yellow">
+                  <span class="btn-text">기록 등록</span>
+                </button>
+              </div>
+              <p id="submission-error" class="error-msg"></p>
+            </div>
+
+            <!-- Local Leaderboard Segment (Top 20 Rankings) -->
+            <div class="leaderboard-section">
+              <h3 class="leaderboard-title">LEADERBOARD // TOP 20</h3>
+              <div class="leaderboard-table-container">
+                <table class="leaderboard-table">
+                  <thead>
+                    <tr>
+                      <th>순위</th>
+                      <th>대원 코드</th>
+                      <th>제거 수</th>
+                      <th>등록일</th>
+                    </tr>
+                  </thead>
+                  <tbody id="leaderboard-body">
+                    <!-- Generated dynamically in app.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <button id="btn-restart" class="btn btn-neon-green" style="margin-top: 15px;">
+              <span class="btn-text">시스템 재부팅</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- IN-GAME ALERT OVERLAY: Difficulty Speed Up Warning -->
+        <div id="toast-warning" class="toast-alert">
+          <span class="toast-tag">웨이브 경고 WARN</span>
+          <span class="toast-txt">폭탄의 낙하 및 카운트다운 주기가 가속됩니다!</span>
+        </div>
+
+      </main>
+
+      <!-- Bottom Controls & Ad Desk -->
+      <footer class="hud-footer">
+        <div class="footer-left" style="width: 100%; display: flex; justify-content: center;">
+          <button id="btn-view-ranking" class="btn btn-glass" style="width: 280px;">
+            <span class="icon">🏆</span>
+            <span class="btn-text">랭킹보기 (1위 - 20위)</span>
+          </button>
+        </div>
+      </footer>
+
+    </div>
+
+    <!-- Right Aside Ad Panel -->
+    <aside class="ad-side-panel">
+      <a href="../index.html" class="home-btn" aria-label="Go to Main Hub">
+        <span class="home-icon">🏠</span> 메인 페이지로 돌아가기
+      </a>
+      <div class="ad-banner-container glassmorphism" aria-label="Sponsored Advertisement">
+        <script src="https://ads-partners.coupang.com/g.js"></script>
+        <script>
+          new PartnersCoupang.G({"id":992758,"template":"carousel","trackingCode":"AF6385769","width":"140","height":"680","tsource":""});
+        </script>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- LEADERBOARD DEDICATED MODAL (Accessible via bottom button) -->
+  <div id="modal-ranking" class="modal-overlay glassmorphism">
+    <div class="modal-card">
+      <header class="modal-header">
+        <h2 class="modal-title"><span class="gold-text">🏆</span> 쿠나이 격퇴전 명예의 전당</h2>
+        <button id="btn-close-modal" class="btn-close">&times;</button>
+      </header>
+      <div class="modal-body">
+        <div class="leaderboard-table-container modal-table">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>순위</th>
+                <th>대원 코드</th>
+                <th>제거 수</th>
+                <th>등록일</th>
+              </tr>
+            </thead>
+            <tbody id="modal-leaderboard-body">
+              <!-- Generated dynamically in app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Warning Modal -->
+  <div class="fullscreen-warning-modal" id="fullscreen-warning-modal">
+    <div class="fullscreen-warning-card">
+      <div class="modal-icon-container-yellow">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+      </div>
+      <h2 class="modal-title-yellow">FULLSCREEN <span class="yellow">REQUIRED</span></h2>
+      <p class="modal-message">전체화면으로 변경해 주세요.</p>
+      <button class="modal-btn-yellow" id="close-fs-modal-btn">GO FULLSCREEN</button>
+    </div>
+  </div>
+
+  <!-- Audio Warning Initializer Modal for browsers blocking Web Audio by default -->
+  <div id="audio-warmup-toast" class="audio-toast hidden">
+    <span>🔊 신스 오디오 가동 준비 완료</span>
+  </div>
+
+  <!-- Core Script -->
+  <script src="app.js"></script>
+</body>
+</html>

@@ -265,6 +265,11 @@
       box-shadow: 0 0 25px rgba(157, 0, 255, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
     }
 
+    .card-kunai:hover {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 25px rgba(57, 255, 20, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
     /* Game Icon Thumbnail */
     .thumbnail-container {
       width: 150px;
@@ -331,6 +336,11 @@
     .card-ninja:hover .thumbnail-container {
       border-color: var(--neon-purple);
       box-shadow: 0 0 20px rgba(157, 0, 255, 0.4);
+    }
+
+    .card-kunai:hover .thumbnail-container {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
     }
 
     /* Thumbnail Images */
@@ -420,6 +430,11 @@
       text-shadow: 0 0 8px rgba(157, 0, 255, 0.3);
     }
 
+    .card-kunai:hover .game-title {
+      color: #39ff14;
+      text-shadow: 0 0 8px rgba(57, 255, 20, 0.3);
+    }
+
     .game-desc {
       font-size: 0.9rem;
       line-height: 1.6;
@@ -490,6 +505,13 @@
       background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
       border-color: var(--neon-purple);
       box-shadow: 0 0 15px rgba(157, 0, 255, 0.4);
+      transform: scale(1.03);
+    }
+
+    .card-kunai:hover .launch-btn {
+      background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+      border-color: var(--neon-green);
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
       transform: scale(1.03);
     }
 
@@ -798,6 +820,21 @@
         </div>
         <h2 class="game-title">NINJA ASCENT</h2>
         <p class="game-desc">사이버 네온 벽면을 질주하여 장애물을 피하고 높이 올라가세요! 공중 회귀 점프 컨트롤과 반짝이는 방패 방어막을 이용해 최고 기록에 도전하세요.</p>
+        <div class="launch-btn">LAUNCH ENGINE</div>
+      </a>
+
+      <!-- Card 8: KunaiStorm -->
+      <a href="Kunai/index.html" class="game-card card-kunai" id="btn-kunai-storm">
+        <div class="thumbnail-container">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="game-img" style="color: var(--neon-green); filter: drop-shadow(0 0 8px var(--neon-green)); width: 55%; height: 55%; transform: rotate(45deg);">
+            <path d="M22 2l-8 2-3 3 2 2 3-3z" fill="rgba(57, 255, 20, 0.15)"></path>
+            <path d="M15 9l-4 4" stroke-width="2.5"></path>
+            <circle cx="5" cy="19" r="3" stroke="var(--neon-cyan)"></circle>
+            <path d="M11 13l-3 3" stroke="var(--neon-cyan)"></path>
+          </svg>
+        </div>
+        <h2 class="game-title">KUNAI STORM</h2>
+        <p class="game-desc">하단 발사대에서 회전하는 쿠나이를 조준 투척하여 떨어지는 시한폭탄을 격퇴하세요! 파괴 점수에 맞춰 속도, 크기, 관통 및 연속 투척 수량을 성장시키세요.</p>
         <div class="launch-btn">LAUNCH ENGINE</div>
       </a>
 
