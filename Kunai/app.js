@@ -315,9 +315,9 @@ window.addEventListener('keydown', (e) => {
 // --------------------------------------------------------------------------
 function update(dt) {
   if (gameState === 'PLAYING') {
-    // 1. Aim Sweeping Angle (Oscillates between -171deg and -9deg relative to positive X, i.e., straight up is -90deg)
-    launcher.aimTime += launcher.aimSweepSpeed * (dt / 1000);
-    launcher.aimAngle = -Math.PI / 2 + Math.sin(launcher.aimTime) * Math.PI * 0.42;
+  // 1. Aim Sweeping Angle (Oscillates between -177deg and -3deg relative to positive X, i.e. 3deg to 177deg)
+  launcher.aimTime += launcher.aimSweepSpeed * (dt / 1000);
+  launcher.aimAngle = -Math.PI / 2 + Math.sin(launcher.aimTime) * Math.PI * (87 / 180);
 
     // 2. Progression
     speedIncreaseTimer += dt;
