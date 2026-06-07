@@ -45,7 +45,7 @@ const maxChoiceTime = 5.0;
 
 // Shuffling movement state
 let shuffleQueue = []; // array of pairs to swap e.g. [[0, 1], [2, 0]]
-let currentSwap = null; // { idxA, idxB, progress, speed, arcDir }
+let activeSwaps = []; // array of active swaps running concurrently
 let shuffleCount = 0;
 let totalShufflesNeeded = 0;
 
@@ -201,7 +201,8 @@ function setupStage(currentStage) {
       baseX: defaultX,
       baseY: centerY,
       revealYOffset: 0, // for rising reveal animation
-      isTarget: false
+      isTarget: false,
+      isSwapping: false
     });
   }
 
@@ -215,9 +216,13 @@ function setupStage(currentStage) {
   shuffleCount = 0;
   
   // We want the shuffle to be observable, not too fast
-  // Progression speed caps at 0.5s per swap
   const baseSpeed = 1.45; // lower is faster (seconds per swap)
-  const swapDuration = Math.max(0.48, baseSpeed - (currentStage * 0.08)); 
+  let swapDuration = Math.max(0.48, baseSpeed - (currentStage * 0.08)); 
+  
+  if (numCups >= 6) {
+    const extraSpeedFactor = (currentStage - 5) * 0.06;
+    swapDuration = Math.max(0.22, swapDuration - extraSpeedFactor);
+  } 
   
   // Build queue of swaps
   // Make sure we shuffle adjacent or non-adjacent cups randomly
@@ -283,22 +288,23 @@ function update(dt) {
     if (revealTimer >= 600) {
       gameState = 'SHUFFLING';
       revealTimer = 0;
-      triggerNextSwap();
+      triggerNextSwaps();
     }
   }
   
   else if (gameState === 'SHUFFLING') {
     statusText.innerText = "SHUFFLING";
     
-    if (currentSwap) {
-      currentSwap.progress += dt;
-      let t = currentSwap.progress / currentSwap.duration;
+    for (let i = activeSwaps.length - 1; i >= 0; i--) {
+      const swap = activeSwaps[i];
+      swap.progress += dt;
+      let t = swap.progress / swap.duration;
+      
       if (t >= 1.0) {
         t = 1.0;
         
-        // Lock final base positions for swap
-        const cupA = cups[currentSwap.idxA];
-        const cupB = cups[currentSwap.idxB];
+        const cupA = cups[swap.idxA];
+        const cupB = cups[swap.idxB];
         
         const tempX = cupA.baseX;
         cupA.baseX = cupB.baseX;
@@ -309,30 +315,27 @@ function update(dt) {
         cupA.y = centerY;
         cupB.y = centerY;
         
-        // Proceed to next swap in queue
-        shuffleCount++;
-        currentSwap = null;
-        triggerNextSwap();
-      } else {
-        // Evaluate Circular Arc position interpolation
-        const cupA = cups[currentSwap.idxA];
-        const cupB = cups[currentSwap.idxB];
+        cupA.isSwapping = false;
+        cupB.isSwapping = false;
         
-        const startX = cupA.baseX;
-        const endX = cupB.baseX;
+        activeSwaps.splice(i, 1);
+        triggerNextSwaps();
+      } else {
+        const cupA = cups[swap.idxA];
+        const cupB = cups[swap.idxB];
+        
+        const startX = swap.startX;
+        const endX = swap.endX;
         const midX = (startX + endX) / 2;
         const dist = Math.abs(endX - startX);
         
-        // Angle goes from 0 to PI
         const angle = t * Math.PI;
         
-        // A curves upward or downward depending on arcDir
         cupA.x = midX - (dist / 2) * Math.cos(angle);
-        cupA.y = centerY - (dist / 2) * Math.sin(angle) * currentSwap.arcDir;
+        cupA.y = centerY - (dist / 2) * Math.sin(angle) * swap.arcDir;
         
-        // B moves in opposite curve direction
         cupB.x = midX + (dist / 2) * Math.cos(angle);
-        cupB.y = centerY + (dist / 2) * Math.sin(angle) * currentSwap.arcDir;
+        cupB.y = centerY + (dist / 2) * Math.sin(angle) * swap.arcDir;
       }
     }
   }
@@ -388,23 +391,51 @@ function update(dt) {
   }
 }
 
-function triggerNextSwap() {
-  if (shuffleQueue.length > 0) {
-    const swap = shuffleQueue.shift();
-    
-    // Alternate circular arc direction (up/down) to avoid overlapping look
-    const arcDir = (shuffleCount % 2 === 0) ? 0.75 : -0.75;
-    
-    currentSwap = {
-      idxA: swap.idxA,
-      idxB: swap.idxB,
-      progress: 0,
-      duration: swap.duration,
-      arcDir: arcDir
-    };
-    playSound('shuffle');
-  } else {
-    // Shuffling is done!
+function triggerNextSwaps() {
+  if (gameState !== 'SHUFFLING') return;
+
+  const maxConcurrent = (cups.length >= 6) ? 2 : 1;
+
+  while (activeSwaps.length < maxConcurrent && shuffleQueue.length > 0) {
+    let foundIndex = -1;
+    for (let i = 0; i < shuffleQueue.length; i++) {
+      const swapCandidate = shuffleQueue[i];
+      const cupA = cups[swapCandidate.idxA];
+      const cupB = cups[swapCandidate.idxB];
+      if (!cupA.isSwapping && !cupB.isSwapping) {
+        foundIndex = i;
+        break;
+      }
+    }
+
+    if (foundIndex !== -1) {
+      const swap = shuffleQueue.splice(foundIndex, 1)[0];
+      const cupA = cups[swap.idxA];
+      const cupB = cups[swap.idxB];
+
+      cupA.isSwapping = true;
+      cupB.isSwapping = true;
+
+      const arcDir = (shuffleCount % 2 === 0) ? 0.75 : -0.75;
+      shuffleCount++;
+
+      activeSwaps.push({
+        idxA: swap.idxA,
+        idxB: swap.idxB,
+        startX: cupA.baseX,
+        endX: cupB.baseX,
+        progress: 0,
+        duration: swap.duration,
+        arcDir: arcDir
+      });
+
+      playSound('shuffle');
+    } else {
+      break;
+    }
+  }
+
+  if (activeSwaps.length === 0 && shuffleQueue.length === 0) {
     gameState = 'WAIT_CHOICE';
     choiceTimer = maxChoiceTime;
     lastBeepSecond = 5;

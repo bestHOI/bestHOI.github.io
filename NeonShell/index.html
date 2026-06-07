@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="NEON SHELL - A cyberpunk shell game. Find the hidden golden sphere!">
-  <title>NEON SHELL - Cyberpunk Shell Game</title>
+  <meta name="description" content="YABAI - A cyberpunk shell game. Find the hidden golden sphere!">
+  <title>YABAI - Cyberpunk Shell Game</title>
 
   <!-- Premium Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,8 +24,10 @@
   </div>
 
   <div class="game-wrapper">
-    <!-- Header HUD Panel -->
-    <header class="hud-panel">
+    <!-- Main Column to vertically align HUD and Viewport -->
+    <div class="main-column">
+      <!-- Header HUD Panel -->
+      <header class="hud-panel">
       <div class="hud-item stage-box">
         <span class="hud-label">STAGE</span>
         <span class="hud-val" id="stage-val">01</span>
@@ -51,7 +53,7 @@
       <!-- Overlay 1: Start Screen -->
       <div class="overlay active" id="overlay-start">
         <div class="glow-title-box">
-          <h1 class="game-title">NEON <span class="gold-text">SHELL</span></h1>
+          <h1 class="game-title">YABAI</h1>
           <p class="game-tagline">눈부시게 흐려지는 가상 광원 속에서 황금 구슬을 찾아라</p>
         </div>
 
@@ -107,6 +109,7 @@
         </div>
       </div>
     </div>
+    </div> <!-- End of main-column -->
 
     <!-- Right Side HUD Panel (Mini leaderboard) -->
     <div class="side-leaderboard">
