@@ -255,7 +255,7 @@
       box-shadow: 0 0 25px rgba(255, 0, 127, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
     }
 
-    .card-color:hover {
+     .card-color:hover {
       border-color: var(--neon-cyan);
       box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
     }
@@ -268,6 +268,11 @@
     .card-kunai:hover {
       border-color: var(--neon-green);
       box-shadow: 0 0 25px rgba(57, 255, 20, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
+    }
+
+    .card-shell:hover {
+      border-color: var(--neon-gold);
+      box-shadow: 0 0 25px rgba(255, 184, 0, 0.25), 0 20px 45px rgba(0, 0, 0, 0.8);
     }
 
     /* Game Icon Thumbnail */
@@ -341,6 +346,11 @@
     .card-kunai:hover .thumbnail-container {
       border-color: var(--neon-green);
       box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+    }
+
+    .card-shell:hover .thumbnail-container {
+      border-color: var(--neon-gold);
+      box-shadow: 0 0 20px rgba(255, 184, 0, 0.4);
     }
 
     /* Thumbnail Images */
@@ -435,6 +445,11 @@
       text-shadow: 0 0 8px rgba(57, 255, 20, 0.3);
     }
 
+    .card-shell:hover .game-title {
+      color: var(--neon-gold);
+      text-shadow: 0 0 8px rgba(255, 184, 0, 0.3);
+    }
+
     .game-desc {
       font-size: 0.9rem;
       line-height: 1.6;
@@ -512,6 +527,13 @@
       background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
       border-color: var(--neon-green);
       box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+      transform: scale(1.03);
+    }
+
+    .card-shell:hover .launch-btn {
+      background: linear-gradient(135deg, var(--neon-gold), var(--neon-magenta));
+      border-color: var(--neon-gold);
+      box-shadow: 0 0 15px rgba(255, 184, 0, 0.4);
       transform: scale(1.03);
     }
 
@@ -823,6 +845,16 @@
         </div>
         <h2 class="game-title">KUNAI STORM</h2>
         <p class="game-desc">하단 발사대에서 회전하는 쿠나이를 조준 투척하여 떨어지는 시한폭탄을 격퇴하세요! 파괴 점수에 맞춰 속도, 크기, 관통 및 연속 투척 수량을 성장시키세요.</p>
+        <div class="launch-btn">LAUNCH ENGINE</div>
+      </a>
+
+      <!-- Card 9: NeonShell -->
+      <a href="NeonShell/index.html" class="game-card card-shell" id="btn-neon-shell">
+        <div class="thumbnail-container">
+          <img src="NeonShell/shell.png" alt="Neon Shell Icon" class="game-img">
+        </div>
+        <h2 class="game-title">NEON SHELL</h2>
+        <p class="game-desc">엎어진 컵 속에 숨겨진 단 하나의 황금 구슬을 추적하세요! 스테이지가 올라갈수록 컵이 늘어나고, 5초의 카운트다운 게이지가 줄어들며 난이도가 극대화됩니다.</p>
         <div class="launch-btn">LAUNCH ENGINE</div>
       </a>
 

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NEON SHELL - A cyberpunk shell game. Find the hidden golden sphere!">
+  <title>NEON SHELL - Cyberpunk Shell Game</title>
+
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Background Scanlines & Glow -->
+  <div class="scanlines"></div>
+  <div class="portal-link-container">
+    <a href="../index.html" class="portal-btn">ARCADE PORTAL</a>
+  </div>
+
+  <div class="game-wrapper">
+    <!-- Header HUD Panel -->
+    <header class="hud-panel">
+      <div class="hud-item stage-box">
+        <span class="hud-label">STAGE</span>
+        <span class="hud-val" id="stage-val">01</span>
+      </div>
+
+      <div class="timer-container">
+        <div class="timer-label">SHUFFLED! SELECT QUICKLY!</div>
+        <div class="timer-track">
+          <div class="timer-bar" id="timer-bar"></div>
+        </div>
+      </div>
+
+      <div class="hud-item text-indicator">
+        <span class="hud-label">STATUS</span>
+        <span class="hud-val status-text" id="status-text">INIT</span>
+      </div>
+    </header>
+
+    <!-- Main Game Viewport Container -->
+    <div class="game-viewport">
+      <canvas id="game-canvas" width="800" height="800"></canvas>
+
+      <!-- Overlay 1: Start Screen -->
+      <div class="overlay active" id="overlay-start">
+        <div class="glow-title-box">
+          <h1 class="game-title">NEON <span class="gold-text">SHELL</span></h1>
+          <p class="game-tagline">눈부시게 흐려지는 가상 광원 속에서 황금 구슬을 찾아라</p>
+        </div>
+
+        <div class="rules-card">
+          <div class="rule-row">
+            <span class="rule-icon">🪙</span>
+            <span class="rule-text">컵이 들리며 **황금 구슬**의 최초 위치가 잠시 공개됩니다.</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-icon">🔄</span>
+            <span class="rule-text">컵들이 회전 경로를 그리며 마구 섞입니다. 궤적을 신중히 추적하세요.</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-icon">⏱️</span>
+            <span class="rule-text">섞기가 끝나면 **5초 카운트다운** 내에 구슬이 담긴 컵을 클릭하세요!</span>
+          </div>
+          <div class="rule-row">
+            <span class="rule-icon">🏆</span>
+            <span class="rule-text">스테이지가 오를수록 **컵의 개수**와 **속도**가 증가합니다.</span>
+          </div>
+        </div>
+
+        <button class="menu-btn start-btn-effect" id="btn-start-overlay">
+          <span class="btn-glow"></span>
+          <span class="btn-text">INITIALIZE SYSTEM</span>
+        </button>
+      </div>
+
+      <!-- Overlay 2: Game Over Screen -->
+      <div class="overlay" id="overlay-gameover">
+        <div class="gameover-title-box">
+          <h2 class="gameover-title">SYSTEM <span class="danger-text">CRASHED</span></h2>
+          <p class="gameover-subtitle">황금 구슬을 잃어버렸습니다.</p>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label">FINAL STAGE</div>
+          <div class="result-score" id="final-stage-val">1</div>
+        </div>
+
+        <div class="ranking-registry-box">
+          <div class="input-desc">명예의 전당에 접속할 대원 코드를 입력하세요:</div>
+          <div class="registry-inputs">
+            <input type="text" id="player-name" placeholder="CODE_NAME" maxlength="12" autocomplete="off">
+            <button class="submit-btn" id="btn-submit-score">SUBMIT</button>
+          </div>
+          <div class="error-msg" id="submission-error">코드는 영문 및 한글 2~12자만 가능합니다.</div>
+        </div>
+
+        <div class="gameover-controls">
+          <button class="menu-btn restart-btn" id="btn-restart">REBOOT RUN</button>
+          <button class="menu-btn secondary-btn" id="btn-view-ranking">LEADERBOARD</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side HUD Panel (Mini leaderboard) -->
+    <div class="side-leaderboard">
+      <h3 class="side-title">TOP RECORD</h3>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>RANK</th>
+            <th>AGENT</th>
+            <th>STAGE</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Fullscreen Leaderboard Modal -->
+  <div class="modal-backdrop" id="modal-ranking">
+    <div class="ranking-modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">AGENT HALL OF FAME</h2>
+        <button class="close-btn" id="btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <table class="leaderboard-table modal-table">
+          <thead>
+            <tr>
+              <th>RANK</th>
+              <th>AGENT</th>
+              <th>STAGE CLERED</th>
+              <th>DATE TIME</th>
+            </tr>
+          </thead>
+          <tbody id="modal-leaderboard-body">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PC Optimization Warning Modal -->
+  <div class="pc-warning-modal" id="fullscreen-warning-modal">
+    <div class="pc-warning-card">
+      <div class="modal-icon-container">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+          <line x1="12" y1="7" x2="12" y2="10"></line>
+          <line x1="12" y1="13" x2="12.01" y2="13"></line>
+        </svg>
+      </div>
+      <h2 class="modal-title">SCREEN <span class="cyan">ALERT</span></h2>
+      <p class="modal-message">이 게임은 <strong>전체화면 환경</strong>에 최적화 되어 있습니다. 전체화면을 켜시겠습니까?</p>
+      <button class="modal-btn" id="close-fs-modal-btn">전체화면 켜기 (CONFIRM)</button>
+    </div>
+  </div>
+
+  <!-- Audio Warmup Toast Notification -->
+  <div class="toast-warmup hidden" id="audio-warmup-toast">
+    <div class="toast-content">
+      <span class="toast-icon">🔊</span>
+      <span class="toast-text">네온 오디오 시스템 초기화 완료</span>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
